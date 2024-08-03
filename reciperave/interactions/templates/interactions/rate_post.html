@@ -1,0 +1,34 @@
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'interactions/css/style.css' %}">
+
+    <h1>Rate and Comment</h1>
+    <div class="wrapper">
+        <form method="post" action="{% url 'submit_rating_and_comment' recipe.id %}">
+            {% csrf_token %}
+            
+            <!-- Rating Section -->
+            <div class="rating">
+                <span onclick="setRating(1)" class="star {% if current_rating == 1 %}selected{% endif %}">★</span>
+                <span onclick="setRating(2)" class="star {% if current_rating == 2 %}selected{% endif %}">★</span>
+                <span onclick="setRating(3)" class="star {% if current_rating == 3 %}selected{% endif %}">★</span>
+                <span onclick="setRating(4)" class="star {% if current_rating == 4 %}selected{% endif %}">★</span>
+                <span onclick="setRating(5)" class="star {% if current_rating == 5 %}selected{% endif %}">★</span>
+                <input type="hidden" id="id_rating" name="rating" value="{{ current_rating }}">
+            </div>
+        
+            <!-- Comment Section -->
+            <div class="comments-section">
+                <div class="comment-box">
+                    <textarea name="comments[]" cols="30" rows="5" placeholder="Write your comment..." style="height:100px;"></textarea>
+                </div>
+            </div>
+        
+            <div class="btn-group">
+                <input type="submit" class="btn submit" value="Submit">
+            </div>
+        </form>
+    </div>
+
+    <script src="{% static 'interactions/js/script.js' %}"></script>
+

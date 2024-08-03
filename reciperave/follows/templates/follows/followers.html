@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Followers</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'follows/css/follows.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Followers</h1>
+        <section class="followers">
+            <ul id="followers-list">
+                {% for follower in followers_list %}
+                <li>
+                    <span>{{ follower.fname }} {{ follower.lname }} ({{ follower.username }})</span>
+                    {% if follower.is_following_back %}
+                    <form method="get" action="{% url 'unfollow_user' %}">
+                        <input type="hidden" name="id" value="{{ follower.uid }}">
+                        <button type="submit" class="btn btn-follow">Unfollow</button>
+                    </form>
+                    {% else %}
+                    <form method="get" action="{% url 'follow_user' %}">
+                        <input type="hidden" name="id" value="{{ follower.uid }}">
+                        <button type="submit" class="btn btn-follow">Follow</button>
+                    </form>
+                    {% endif %}
+                </li>
+                {% empty %}
+                <li>No followers found.</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+
+    <script src="{% static 'follows/js/follows.js' %}"></script>
+</body>
+</html>

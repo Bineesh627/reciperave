@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>View Recipes</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'interactions/css/style.css' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow-x: hidden; /* Prevent horizontal overflow */
+        }
+        
+        /* Container Styles */
+        .container {
+            /* max-width: 1200px; Set a maximum width for large screens */
+            margin: 0 auto; /* Center the container */
+            padding: 0 15px; /* Add padding to the sides */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Recipes</h1>
+    <ul>
+        <li>
+            {% include 'bookmarks/bookmark_recipe.html' %}
+            <h2>Title: {{ recipe.recipe_name }}</h2>
+            <p>Total Time: {{ recipe.total_time }}</p>
+            <p>Dish Type: {{ recipe.dishType }}</p>
+            <p>Description: {{ recipe.description }}</p>
+            <p>Instruction: {{ recipe.instruction }}</p>
+            {% if recipe.photo_video %}
+            <img width="200px" height="200px" src="{{ recipe.photo_video.url }}" alt="{{ recipe.recipe_name }}">
+            {% endif %}
+
+            <!-- Edit button -->
+            <form method="get" action="{% url 'edit_recipe' recipe.id %}">
+                <button type="submit">Edit</button>
+            </form>
+
+            <!-- Include delete recipe HTML -->
+            {% include 'recipes/delete_recipe.html' %}
+            <!-- Display existing comments and ratings -->
+            <div class="ratings-comments">
+                <h3>Ratings and Comments:</h3>
+                {% for rating in recipe.ratings.all %}
+                <div class="rating">
+                    <span  class="star {% if rating.rating == 1 %}selected{% endif %}">★</span>
+                    <span  class="star {% if rating.rating == 2 %}selected{% endif %}">★</span>
+                    <span  class="star {% if rating.rating == 3 %}selected{% endif %}">★</span>
+                    <span  class="star {% if rating.rating == 4 %}selected{% endif %}">★</span>
+                    <span  class="star {% if rating.rating == 5 %}selected{% endif %}">★</span>
+                    <input type="hidden" id="id_rating" name="rating" value="{{ rating.rating }}">
+                </div>
+                <div class="comments-section">
+                    <p>Comment: {{ rating.comment }}</p>
+                    <p>By: {{ rating.user.username }}</p>
+                    <p>At: {{ rating.created_at }}</p>
+                    {% if rating.user == request.user %}
+                    <a href="{% url 'edit_rating_and_comment' recipe.id rating.id %}">Edit</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                {% if not has_commented_or_rated %}
+                {% include 'interactions/rate_post.html' %}
+                {% endif %}
+            </div>
+
+        </li>
+    </ul>
+    </div>
+    <script src="{% static 'interactions/js/script.js' %}"></script>
+
+</body>
+
+</html>

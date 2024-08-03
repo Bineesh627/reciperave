@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload Recipe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            border: 1px solid #ccc;
+            border-radius: 1em;
+        }
+
+        div.form-group {
+            margin-bottom: 1em;
+        }
+
+        label {
+            display: block;
+            margin-bottom: .5em;
+            color: #333333;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: .5em;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: .25em;
+        }
+
+        input[type="file"] {
+            padding: .5em;
+        }
+
+        button {
+            padding: 0.7em;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: .25em;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Upload Recipe</h1>
+    <form method="post" action="{% url 'upload_recipe_action' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="recipe_name">Recipe Name:</label>
+            <input type="text" name="recipe_name" id="recipe_name" required>
+        </div>
+        <div class="form-group">
+            <label for="total_time">Total Time:</label>
+            <input type="text" name="total_time" id="total_time" required>
+        </div>
+        <div class="form-group">
+            <label for="dishtype">Dish Type:</label>
+            <select name="dishType" id="dishType" required>
+                {% for category in categories %}
+                    <option value="{{ category.dishtype }}" {% if recipe.dishType == category.dishtype %}selected{% endif %}>
+                    {{ category.dishtype }}
+                    </option>
+                {% endfor %}
+            </select>           
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea name="description" id="description" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="photo_video">Photo/Video:</label>
+            <input type="file" name="photo_video" id="photo_video"><br>
+        </div>
+        <div class="form-group">
+            <label for="instruction">Instruction:</label>
+            <textarea name="instruction" id="instruction" required></textarea><br>
+        </div>
+        <button type="submit">Upload Recipe</button>
+    </form>
+
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+{% if user.is_authenticated %}
+    {% if is_bookmarked %}
+        <!-- Unbookmark button -->
+        <form method="post" action="{% url 'unbookmark' recipe.id %}">
+            {% csrf_token %}
+            <button type="submit">Unbookmark this Recipe</button>
+        </form>
+    {% else %}
+        <!-- Bookmark button -->
+        <form method="post" action="{% url 'bookmark' recipe.id %}">
+            {% csrf_token %}
+            <button type="submit">Bookmark this Recipe</button>
+        </form>
+    {% endif %}
+{% endif %}

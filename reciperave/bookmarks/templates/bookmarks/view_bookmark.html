@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Bookmarks</title>
+</head>
+<body>
+    <h1>Your Bookmarked Recipes</h1>
+    <ul>
+        {% for bookmark in bookmarks %}
+            <li>
+                <h2>Title: {{ bookmark.recipe.recipe_name }}</h2>
+                <p>Category: {{ bookmark.recipe.dishType }}</p>
+                {% if bookmark.recipe.photo_video %}
+                    <img src="{{ bookmark.recipe.photo_video.url }}" alt="{{ bookmark.recipe.recipe_name }}">
+                {% endif %}
+                <!-- Add more recipe details if needed -->
+            </li>
+        {% empty %}
+            <p>You have no bookmarked recipes.</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>

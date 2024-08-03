@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Following</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'follows/css/follows.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Following</h1>
+        <section class="followings">
+            <ul id="followings-list">
+                {% for following in followings_list %}
+                <li>
+                    <span>{{ following.fname }} {{ following.lname }} ({{ following.username }})</span>
+                    {% if following.is_following %}
+                    <form method="get" action="{% url 'unfollow_user' %}">
+                        <input type="hidden" name="id" value="{{ following.uid }}">
+                        <button type="submit" class="btn btn-follow">Unfollow</button>
+                    </form>
+                    {% endif %}
+                </li>
+                {% empty %}
+                <li>Not following anyone yet.</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+
+    <script src="{% static 'follows/js/follows.js' %}"></script>
+</body>
+</html>
