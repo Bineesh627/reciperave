@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback Form</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'feedback/css/feedback.css' %}">
 </head>
 <body>
-    <h1>Feedback Form</h1>
-    <form class="feedback-form" method="post" action="{% url 'feedbackForm' %}">
-        {% csrf_token %}
-        <textarea id="feedback" placeholder="Type your feedback here..." name="message" cols="80" rows="10"></textarea>
-        <button type="submit">Submit Feedback</button>
-    </form>
+    <div class="container">
+        <h1>Feedback</h1>
+        <form action="{% url 'feedbackForm' %}" method="post">
+            {% csrf_token %}
+            <label for="feedback">Message</label>
+            <textarea id="feedback" placeholder="Type your feedback here..." name="message" cols="80" rows="10"></textarea>
+
+            <button type="submit" class="submit-button">submit</button>
+        </form>
+    </div>
 </body>
 </html>

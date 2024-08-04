@@ -4,10 +4,12 @@
     <title>View Bookmarks</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'base_card/cards.css' %}">
-    <link rel="stylesheet" href="{% static 'bookmarks/view_bookmark.css' %}">
+    <link rel="stylesheet" href="{% static 'bookmarks/css/view_bookmark.css' %}">
 </head>
 <body>
-    <h1>Your Bookmarked Recipes</h1>
+    <header>
+        <h1>Bookmarked Recipes</h1>
+    </header>
     <section>
         <div class="card-container">
             {% for recipe in recipes %}

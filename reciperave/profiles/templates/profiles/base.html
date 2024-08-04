@@ -9,10 +9,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     {% load static %}
     <link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'base_card/cards.css' %}">
 </head>
 <body>
     <div class="container">
         {% block content %}{% endblock %}
     </div>
+    {% block post %}{% endblock %}
 </body>
 </html>

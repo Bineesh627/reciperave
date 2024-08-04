@@ -20,11 +20,6 @@
                         <input type="hidden" name="id" value="{{ follower.uid }}">
                         <button type="submit" class="btn btn-follow">Remove</button>
                     </form>
-                    {% else %}
-                    <form method="get" action="{% url 'follow_user' %}">
-                        <input type="hidden" name="id" value="{{ follower.uid }}">
-                        <button type="submit" class="btn btn-follow">Follow</button>
-                    </form>
                     {% endif %}
                 </li>
                 {% empty %}

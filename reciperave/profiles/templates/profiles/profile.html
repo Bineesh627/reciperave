@@ -44,18 +44,20 @@
     </div>
 </header>
 
-<main>
-    <div class="container">
-        <div class="gallery">
-            <!-- Gallery items go here -->
-        </div>
-    </div>
-</main>
-
 <script>
     function redirectToProfileEdit() {
         window.location.href = "{% url 'edit_profile' %}";
     }
 </script>
 
+{% endblock %}
+
+{% block post %}
+<div class="card-container">
+    {% for recipe in recipes %}
+    {% include 'base_card/cards.html' %}
+    {% empty %}
+    <p>No recipes found.</p>
+    {% endfor %}
+</div>
 {% endblock %}

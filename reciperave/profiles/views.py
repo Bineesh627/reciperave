@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Profile
+from recipes.models import Recipe
 from follows.models import Follow
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
@@ -41,6 +42,7 @@ def edit_profile(request):
 def profile(request, username):
     user_profile = get_object_or_404(User, username=username)
     is_own_profile = request.user == user_profile
+    recipes = Recipe.objects.all()
 
     # Determine if the current user is following the user_profile
     is_following = Follow.objects.filter(follower=request.user, following=user_profile).exists()
@@ -71,6 +73,7 @@ def profile(request, username):
     recipe_count = profile.recipe_count if hasattr(profile, 'recipe_count') else 0
 
     context = {
+        'recipes': recipes,
         'current_user': {
             'uid': user_profile.id,
             'fname': user_profile.first_name,

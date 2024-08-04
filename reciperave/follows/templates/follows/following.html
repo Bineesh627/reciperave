@@ -18,7 +18,7 @@
                     {% if following.is_following %}
                     <form method="get" action="{% url 'unfollow_user' %}">
                         <input type="hidden" name="id" value="{{ following.uid }}">
-                        <button type="submit" class="btn btn-follow">Unfollow</button>
+                        <button type="submit" class="btn btn-follow">Following</button>
                     </form>
                     {% endif %}
                 </li>

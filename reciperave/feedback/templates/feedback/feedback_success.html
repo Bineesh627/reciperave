@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Feedback Successful</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Received</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'feedback/css/feedback_success.css' %}">
 </head>
 <body>
-    <h1>Feedback Submitted Successfully!</h1>
-    <p>Thank you for your feedback. Your message has been received.</p>
-    <a href="{% url 'homes' %}">Return to Home</a>
+    <div class="container">
+        <h1>Thank You!</h1>
+        <p>We truly appreciate your feedback. Your input helps us improve and provide a better experience.</p>
+        <a href="{% url 'homes' %}">Return to Home</a>
+    </div>
 </body>
 </html>

@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="{% static 'search/search_recipes.css' %}">
 </head>
 <body>
+    <header>
+        <h1>Search Recipes</h1>
+    </header>
     <div class="container">
-        <header>
-            <h1>Search Recipes</h1>
-        </header>
         <main>
             <form method="GET" action="{% url 'search_recipes' %}">
                 <div class="form-group">
