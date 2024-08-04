@@ -18,7 +18,7 @@
                     {% if follower.is_following_back %}
                     <form method="get" action="{% url 'unfollow_user' %}">
                         <input type="hidden" name="id" value="{{ follower.uid }}">
-                        <button type="submit" class="btn btn-follow">Unfollow</button>
+                        <button type="submit" class="btn btn-follow">Remove</button>
                     </form>
                     {% else %}
                     <form method="get" action="{% url 'follow_user' %}">

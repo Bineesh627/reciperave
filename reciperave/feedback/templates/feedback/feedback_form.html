@@ -5,9 +5,9 @@
 </head>
 <body>
     <h1>Feedback Form</h1>
-    <form method="post" action="{% url 'feedbackForm' %}">
+    <form class="feedback-form" method="post" action="{% url 'feedbackForm' %}">
         {% csrf_token %}
-        <textarea name="message" cols="80" rows="10"></textarea>
+        <textarea id="feedback" placeholder="Type your feedback here..." name="message" cols="80" rows="10"></textarea>
         <button type="submit">Submit Feedback</button>
     </form>
 </body>

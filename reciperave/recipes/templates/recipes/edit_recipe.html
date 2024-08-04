@@ -56,7 +56,9 @@
 </head>
 
 <body>
-    <h1>Edit Recipe</h1>
+    <center>
+        <h1>Edit Recipe</h1>
+    </center>
     <!-- edit_recipe.html -->
     <form method="post" action="{% url 'edit_recipe_action' recipe_id=recipe_id %}" enctype="multipart/form-data">
         {% csrf_token %}

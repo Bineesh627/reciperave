@@ -39,14 +39,15 @@ def edit_profile(request):
 
 @login_required
 def profile(request, username):
-    # Fetch the user object based on the username
     user_profile = get_object_or_404(User, username=username)
     is_own_profile = request.user == user_profile
-    
-    # Fetch followers and followings for the user whose profile is being viewed
+
+    # Determine if the current user is following the user_profile
+    is_following = Follow.objects.filter(follower=request.user, following=user_profile).exists()
+
     followers = User.objects.filter(following__following=user_profile)
     followings = User.objects.filter(following__follower=user_profile)
-    
+
     followers_list = [{
         'uid': follower.id,
         'fname': follower.first_name,
@@ -63,11 +64,9 @@ def profile(request, username):
         'is_following': True
     } for following in followings]
 
-    # Count followers and followings
     followers_count = followers.count()
     following_count = followings.count()
-    
-    # Get the profile information if available
+
     profile = get_object_or_404(Profile, user=user_profile)
     recipe_count = profile.recipe_count if hasattr(profile, 'recipe_count') else 0
 
@@ -83,6 +82,7 @@ def profile(request, username):
         'followers_list': followers_list,
         'followings_list': followings_list,
         'is_own_profile': is_own_profile,
+        'is_following': is_following,
         'followers_count': followers_count,
         'following_count': following_count,
         'recipe_count': recipe_count

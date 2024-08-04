@@ -1,0 +1,4 @@
+<form method="get" action="{% url 'follow_user' %}">
+    <input type="hidden" name="id" value="{{ current_user.uid }}">
+    <button class="btn profile-edit-btn" type="submit">Follow</button>
+</form>

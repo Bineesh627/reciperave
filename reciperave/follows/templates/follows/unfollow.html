@@ -1,0 +1,4 @@
+<form method="get" action="{% url 'unfollow_user' %}">
+    <input type="hidden" name="id" value="{{ current_user.uid }}">
+    <button class="btn profile-edit-btn" type="submit">Unfollow</button>
+</form>

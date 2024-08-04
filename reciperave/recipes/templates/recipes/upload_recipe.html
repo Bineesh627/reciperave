@@ -56,7 +56,9 @@
 </head>
 
 <body>
-    <h1>Upload Recipe</h1>
+    <center>
+        <h1>Upload Recipe</h1>
+    </center>
     <form method="post" action="{% url 'upload_recipe_action' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">

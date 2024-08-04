@@ -1,76 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Profile Page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div class="profile">
-                <div class="profile-image">
-                    <!-- <img src="{{ current_user.profile_picture }}" alt="Profile Picture"> -->
-                    <img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt="">
-                </div>
+{% extends 'profiles/base.html' %}
 
-                <div class="profile-user-settings">
-                    <h1 class="profile-user-name">{{ current_user.username }}</h1>
+{% block title %}{{ current_user.username }} Profile{% endblock %}
 
-                    {% if is_own_profile %}
-                    <button class="btn profile-edit-btn" onclick="redirectToProfileEdit()">Edit Profile</button>
-                    {% else %}
-                    {% if not is_following %}
-                    <form method="get" action="{% url 'follow_user' %}">
-                        <input type="hidden" name="id" value="{{ current_user.uid }}">
-                        <button type="submit">Follow</button>
-                    </form>
-                    {% else %}
-                    <form method="get" action="{% url 'unfollow_user' %}">
-                        <input type="hidden" name="id" value="{{ current_user.uid }}">
-                        <button type="submit">Unfollow</button>
-                    </form>
+{% block content %}
+<header>
+    <div class="container">
+        <div class="profile">
+            <div class="profile-image">
+                <img src="{{ current_user.profile_picture }}" alt="" style=" height: 112px; width: 112px; max-height:112px; max-width: 112px; border-radius: 50%; overflow: hidden;">
+            </div>
+
+            <div class="profile-user-settings">
+                <h1 class="profile-user-name">{{ current_user.username }}</h1>
+
+                {% if is_own_profile %}
+                <button class="btn profile-edit-btn" onclick="redirectToProfileEdit()">Edit Profile</button>
+                {% elif not is_following %}
+                    {% include 'follows/follow.html' %}
+                {% else %}
+                {% include 'follows/unfollow.html' %}
                     {% endif %}
-                    {% endif %}
-                </div>
+            </div>
 
-                <div class="profile-stats">
-                    <ul>
-                        <li><span class="profile-stat-count">{{ recipe_count }}</span> posts</li>
-                        <a style="color: black; text-decoration: none;" href="{% url 'followers' username=current_user.username %}">
-                            <li><span class="profile-stat-count">{{ followers_count }}</span> followers</li>
-                        </a>
-                        <a style="color: black; text-decoration: none;" href="{% url 'followings' username=current_user.username %}">
-                            <li><span class="profile-stat-count">{{ following_count }}</span> following</li>
-                        </a>
-                        
-                    </ul>
-                </div>
+            <div class="profile-stats">
+                <ul>
+                    <li><span class="profile-stat-count">{{ recipe_count }}</span> posts</li>
+                    <a style="color: black; text-decoration: none;"
+                        href="{% url 'followers' username=current_user.username %}">
+                        <li><span class="profile-stat-count">{{ followers_count }}</span> followers</li>
+                    </a>
+                    <a style="color: black; text-decoration: none;"
+                        href="{% url 'followings' username=current_user.username %}">
+                        <li><span class="profile-stat-count">{{ following_count }}</span> following</li>
+                    </a>
 
-                <div class="profile-bio">
-                    <p><span class="profile-real-name">{{ current_user.fname }} {{ current_user.lname }}</span> {{ current_user.bio }}</p>
-                </div>
+                </ul>
+            </div>
+
+            <div class="profile-bio">
+                <p><span class="profile-real-name">{{ current_user.fname }} {{ current_user.lname }}</span> {{current_user.bio }}</p>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
-    <main>
-        <div class="container">
-            <div class="gallery">
-                <!-- Gallery items go here -->
-            </div>
+<main>
+    <div class="container">
+        <div class="gallery">
+            <!-- Gallery items go here -->
         </div>
-    </main>
+    </div>
+</main>
 
-    <script>
-        function redirectToProfileEdit() {
-            window.location.href = "{% url 'edit_profile' %}";
-        }
-    </script>
-</body>
-</html>
+<script>
+    function redirectToProfileEdit() {
+        window.location.href = "{% url 'edit_profile' %}";
+    }
+</script>
+
+{% endblock %}

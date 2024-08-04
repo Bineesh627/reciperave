@@ -1,0 +1,9 @@
+<div class="card">
+    <img src="{{ recipe.photo_video.url }}" alt="">
+    <div class="card-content">
+        <h3>{{ recipe.recipe_name }}</h3>
+        <p>Dish Type: {{ recipe.dishType }}</p>
+        <p>Created at: {{ recipe.created_at }}</</p>
+        <a href="{% url 'view_recipe' recipe.id %}" class="btn">View Recipe</a>
+    </div>
+</div>
