@@ -10,5 +10,10 @@
         {{ form.as_p }}
         <input type="submit" value="Login">
     </form>
+    <script>
+        if (document.body.classList.contains('logged-in')) {
+            window.location.href = "{% url 'homes' %}";
+        }
+    </script>
 </body>
 </html>

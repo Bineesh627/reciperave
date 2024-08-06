@@ -43,27 +43,36 @@ def submit_rating_and_comment(request, recipe_id):
         
         return redirect('homes')
 
+# interactions/views.py
+
 @login_required
-def edit_rating_and_comment(request, recipe_id, rating_id):
+def edit_rating_and_comment(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
-    rating = get_object_or_404(Rating, id=rating_id, recipe=recipe, user=request.user)
-    comments = Comments.objects.filter(recipe=recipe, user=request.user)
     
+    # Fetch or create the rating for the current user and recipe
+    rating, created = Rating.objects.get_or_create(
+        recipe=recipe,
+        user=request.user
+    )
+    
+    # Fetch the existing comment for the current user and recipe
+    comment = Comments.objects.filter(recipe=recipe, user=request.user).first()
+
     if request.method == 'POST':
         rating_value = request.POST.get('rating')
-        comments_texts = request.POST.getlist('comments[]')
+        comment_text = request.POST.get('comments')
 
-        # Update rating
+        # Update or create rating
         if rating_value:
             rating.rating = rating_value
-            rating.comment = comments_texts[0] if comments_texts else ""  # Update comment from first entry
             rating.save()
 
-        # Update comments
-        for comment_text in comments_texts:
+        # Update or create comment
+        if comment:
+            comment.comments = comment_text
+            comment.save()
+        else:
             if comment_text.strip():
-                # Delete existing comments before adding new ones
-                Comments.objects.filter(recipe=recipe, user=request.user).delete()
                 Comments.objects.create(
                     recipe=recipe,
                     user=request.user,
@@ -75,7 +84,6 @@ def edit_rating_and_comment(request, recipe_id, rating_id):
     context = {
         'recipe': recipe,
         'rating': rating,
-        'comments': comments
+        'comments': comment  # Pass a single comment instance
     }
     return render(request, 'interactions/edit_rate_post.html', context)
-

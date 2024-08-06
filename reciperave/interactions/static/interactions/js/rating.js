@@ -13,14 +13,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function setRating(rating) {
+        ratingValue.value = rating;
+        updateStars(rating);
+    }
+
     // Initialize stars based on current rating
     updateStars(currentRating);
 
     allStar.forEach((item, idx) => {
         item.addEventListener('click', function () {
             const newRating = idx + 1;
-            ratingValue.value = newRating;
-            updateStars(newRating);
+            setRating(newRating);
         });
     });
 });

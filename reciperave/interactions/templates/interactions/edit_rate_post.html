@@ -1,74 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- templates/interactions/edit_rate_post.html -->
+{% load static %}
+<link rel="stylesheet" href="{% static 'interactions/css/rate_comment.css' %}">
+<form method="post" action="{% url 'edit_rating_and_comment' recipe.id %}">
+    {% csrf_token %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'interactions/css/style.css' %}">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        html,
-        body {
-            height: 100%;
-            overflow-x: hidden;
-            /* Prevent horizontal overflow */
-        }
-
-        /* Container Styles */
-        .container {
-            /* max-width: 1200px; Set a maximum width for large screens */
-            margin: 0 auto;
-            /* Center the container */
-            padding: 0 15px;
-            /* Add padding to the sides */
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="container">
-        <h1>Edit Your Rating and Comments</h1>
-
-        <form method="post" action="{% url 'edit_rating_and_comment' recipe.id rating.id %}">
-            {% csrf_token %}
-
-            <!-- Rating Section -->
-            <div class="rating">
-                <span onclick="setRating(1)" class="star {% if rating.rating == 1 %}selected{% endif %}">★</span>
-                <span onclick="setRating(2)" class="star {% if rating.rating == 2 %}selected{% endif %}">★</span>
-                <span onclick="setRating(3)" class="star {% if rating.rating == 3 %}selected{% endif %}">★</span>
-                <span onclick="setRating(4)" class="star {% if rating.rating == 4 %}selected{% endif %}">★</span>
-                <span onclick="setRating(5)" class="star {% if rating.rating == 5 %}selected{% endif %}">★</span>
-                <input type="hidden" id="id_rating" name="rating" value="{{ rating.rating }}">
-            </div>
-
-            <!-- Comment Section -->
-            <div class="comments-section">
-                <h3>Comments</h3>
-                <div class="comment-box">
-                    {% for comment in comments %}
-                    <textarea name="comments[]" cols="30" rows="5" placeholder="Write your comment..."
-                        style="height:100px;">{{ comment.comments }}</textarea>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="btn-group">
-                <input type="submit" class="btn submit" value="Update">
-            </div>
-        </form>
-
+    <!-- Rating Section -->
+    <div class="rating">
+        <span onclick="setRating(1)" class="star {% if rating.rating == 1 %}selected{% endif %}">★</span>
+        <span onclick="setRating(2)" class="star {% if rating.rating == 2 %}selected{% endif %}">★</span>
+        <span onclick="setRating(3)" class="star {% if rating.rating == 3 %}selected{% endif %}">★</span>
+        <span onclick="setRating(4)" class="star {% if rating.rating == 4 %}selected{% endif %}">★</span>
+        <span onclick="setRating(5)" class="star {% if rating.rating == 5 %}selected{% endif %}">★</span>
+        <input type="hidden" id="id_rating" name="rating" value="{{ rating.rating|default:0 }}">
     </div>
-    <script src="{% static 'interactions/js/script.js' %}"></script>
 
-</body>
+    <!-- Comment Section -->
+    <div class="comments-section">
+        <h3>Comment</h3>
+        <div class="comment-box">
+            <textarea name="comments" placeholder="Write your comment..." style="height:100px;">{{ comments.comments }}</textarea>
+        </div>
+    </div>
 
-</html>
+    <div class="row">
+        <input type="submit" value="Submit">
+    </div>
+</form>
+
+<script src="{% static 'interactions/js/rating.js' %}"></script>
+<script>
+    function setRating(n) {
+        let stars = document.getElementsByClassName("star");
+        for (let i = 0; i < stars.length; i++) {
+            stars[i].className = i < n ? "star selected" : "star";
+        }
+        document.getElementById('id_rating').value = n;
+    }
+</script>

@@ -13,5 +13,10 @@
         <button type="submit">submit</button>
 
     </form>
+    <script>
+        if (document.body.classList.contains('logged-in')) {
+            window.location.href = "{% url 'homes' %}";
+        }
+    </script>
 </body>
 </html>

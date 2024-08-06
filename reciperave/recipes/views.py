@@ -47,23 +47,31 @@ def edit_recipe_action(request, recipe_id):
         form = RecipeForm(instance=recipe)
     return render(request, 'recipes/edit_recipe.html', {'form': form})
 
-
 @login_required
 def view_recipe(request, recipe_id):
     # Fetch the specific recipe by its ID
     recipe = get_object_or_404(Recipe, id=recipe_id)
 
+    # Check if the recipe is bookmarked by the user
     is_bookmarked = Bookmark.objects.filter(recipe=recipe, user=request.user).exists()
     
-    # Check if the logged-in user has already rated or commented on the recipe
+    # Fetch all ratings and comments for the recipe
+    ratings = Rating.objects.filter(recipe=recipe)
+    comments = Comments.objects.filter(recipe=recipe)
+    
+    # Fetch current user's rating and comments if they exist
     current_rating = Rating.objects.filter(recipe=recipe, user=request.user).first()
-    comments = Comments.objects.filter(recipe=recipe, user=request.user)
+    user_comments = Comments.objects.filter(recipe=recipe, user=request.user)
+
     context = {
         'recipe': recipe,
-        'has_commented_or_rated': current_rating or comments.exists(),
+        'ratings': ratings,
+        'comments': comments,
+        'current_rating': current_rating,
+        'user_comments': user_comments,
         'is_bookmarked': is_bookmarked,
     }
-    # Pass the recipe to the template
+    
     return render(request, 'recipes/view_recipe.html', context)
 
 @login_required

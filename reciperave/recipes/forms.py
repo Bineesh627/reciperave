@@ -10,3 +10,4 @@ class RecipeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['dishType'].widget = forms.Select(choices=[(cat.dishtype, cat.dishtype) for cat in Category.objects.all()])
+

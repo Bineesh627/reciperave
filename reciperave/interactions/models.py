@@ -9,7 +9,7 @@ class Comments(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Comment by {self.user.username} on {self.recipe.title}'
+        return f'Comment by {self.user.username}'
 
     class Meta:
         db_table = 'tbl_comments'
@@ -22,7 +22,7 @@ class Rating(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Rating {self.rating} by {self.user.username} for {self.recipe.title}'
+        return f'Rating {self.rating} by {self.user.username}'
 
     class Meta:
         db_table = 'tbl_rating'
