@@ -54,10 +54,12 @@
 
 {% block post %}
 <div class="card-container">
-    {% for recipe in recipes %}
-    {% include 'base_card/cards.html' %}
-    {% empty %}
-    <p>No recipes found.</p>
-    {% endfor %}
+    {% if recipes %}
+        {% for recipe in recipes %}
+            {% include 'base_card/cards.html' %}
+        {% endfor %}
+    {% else %}
+        <p>No recipes found.</p>
+    {% endif %}
 </div>
 {% endblock %}

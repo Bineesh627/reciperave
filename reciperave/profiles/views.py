@@ -42,11 +42,14 @@ def edit_profile(request):
 def profile(request, username):
     user_profile = get_object_or_404(User, username=username)
     is_own_profile = request.user == user_profile
-    recipes = Recipe.objects.all()
+
+    # Fetch only the recipes belonging to the user_profile
+    recipes = Recipe.objects.filter(user=user_profile)
 
     # Determine if the current user is following the user_profile
     is_following = Follow.objects.filter(follower=request.user, following=user_profile).exists()
 
+    # Fetch followers and followings
     followers = User.objects.filter(following__following=user_profile)
     followings = User.objects.filter(following__follower=user_profile)
 
@@ -70,7 +73,7 @@ def profile(request, username):
     following_count = followings.count()
 
     profile = get_object_or_404(Profile, user=user_profile)
-    recipe_count = profile.recipe_count if hasattr(profile, 'recipe_count') else 0
+    recipe_count = recipes.count()  # Count the user's recipes
 
     context = {
         'recipes': recipes,
