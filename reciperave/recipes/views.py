@@ -19,7 +19,7 @@ def upload_recipe_action(request):
             recipe = form.save(commit=False)
             recipe.user = request.user  # Ensure the user is set correctly
             recipe.save()
-            return HttpResponse("<script>alert('Successfully uploaded');window.location='/homes/';</script>")
+            return redirect('homes')
     else:
         form = RecipeForm()
     return render(request, 'recipes/upload_recipe.html', {'form': form})
@@ -42,7 +42,7 @@ def edit_recipe_action(request, recipe_id):
         form = RecipeForm(request.POST, request.FILES, instance=recipe)
         if form.is_valid():
             form.save()
-            return HttpResponse("<script>alert('Successfully updated');window.location='/homes/';</script>")
+            return redirect('homes')
     else:
         form = RecipeForm(instance=recipe)
     return render(request, 'recipes/edit_recipe.html', {'form': form})
@@ -51,6 +51,8 @@ def edit_recipe_action(request, recipe_id):
 def view_recipe(request, recipe_id):
     # Fetch the specific recipe by its ID
     recipe = get_object_or_404(Recipe, id=recipe_id)
+
+    is_author = request.user == recipe.user
 
     # Check if the recipe is bookmarked by the user
     is_bookmarked = Bookmark.objects.filter(recipe=recipe, user=request.user).exists()
@@ -72,6 +74,7 @@ def view_recipe(request, recipe_id):
         'current_rating': current_rating,
         'user_comments': user_comments,
         'is_bookmarked': is_bookmarked,
+        'is_author': is_author,
     }
     
     return render(request, 'recipes/view_recipe.html', context)

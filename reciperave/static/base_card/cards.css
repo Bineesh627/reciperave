@@ -5,6 +5,19 @@
     margin-top: 100px;
 }
 
+.video-container {
+    text-align: center; /* Center the video container */
+}
+
+.recipe-video {
+    width: 100%; /* Adjust width as needed, e.g., 100% for full width */
+    max-width: 800px; /* Maximum width of the video */
+    height: auto; /* Maintain aspect ratio */
+    /* Optionally set a specific height */
+    /* height: 400px; */
+}
+
+
 .card {
     width: 325px;
     background-color: #f0f0f0;

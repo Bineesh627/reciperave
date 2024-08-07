@@ -14,7 +14,8 @@ class Recipe(models.Model):
     total_time = models.CharField(max_length=20)
     dishType = models.CharField(max_length=20)
     description = models.TextField()
-    photo_video = models.FileField(upload_to='pictures')
+    photo = models.ImageField(upload_to='recipes/images/', null=True, blank=True)
+    video = models.FileField(upload_to='recipes/videos/', null=True, blank=True)
     instruction = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 

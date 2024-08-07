@@ -133,7 +133,8 @@ venv.bak/
 # media files
 
 media/*
-media/pictures/*
+media/images/*
+media/videos/*
 media/profile_pics/*
 
 # Spyder project settings

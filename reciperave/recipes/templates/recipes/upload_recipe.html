@@ -79,13 +79,20 @@
                 {% endfor %}
             </select>           
         </div>
+        
         <div class="form-group">
             <label for="description">Description:</label>
             <textarea name="description" id="description" required></textarea>
         </div>
+
         <div class="form-group">
-            <label for="photo_video">Photo/Video:</label>
-            <input type="file" name="photo_video" id="photo_video"><br>
+            <label for="photo">Photo:</label>
+            <input type="file" name="photo" id="photo" accept="image/*"><br>
+        </div>
+
+        <div class="form-group">
+            <label for="video">Video:</label>
+            <input type="file" name="video" id="video" accept="video/*"><br>
         </div>
         <div class="form-group">
             <label for="instruction">Instruction:</label>

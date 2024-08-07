@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Recipe, Category
 
 class RecipeAdmin(admin.ModelAdmin):
-    readonly_fields = ('user', 'recipe_name', 'total_time', 'dishType', 'description', 'photo_video', 'instruction', 'created_at')
+    readonly_fields = ('user', 'recipe_name', 'total_time', 'dishType', 'description', 'photo', 'video', 'instruction', 'created_at')
 
     def username(self, obj):
         return obj.user.username if obj.user else 'Anonymous'  # Return 'Anonymous' if user is None

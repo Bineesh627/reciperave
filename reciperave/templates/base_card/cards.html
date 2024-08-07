@@ -1,5 +1,18 @@
 <div class="card">
-    <img src="{{ recipe.photo_video.url }}" alt="">
+    <div class="video-container">
+          {% if recipe.video %}
+          <video  width="323px" height="188px" class="recipe-video" controls>
+            <source src="{{ recipe.video.url }}" type="video/mp4">
+         Your browser does not support the video tag.
+        </video>
+          {% elif recipe.photo %}
+          <div class="image">
+            <img src="{{ recipe.photo.url }}" alt="{{ recipe.recipe_name }}">
+          </div>
+          {% else %}
+          <p>No media available</p>
+          {% endif %}
+        </div>
     <div class="card-content">
         <h3>{{ recipe.recipe_name }}</h3>
         <p>Dish Type: {{ recipe.dishType }}</p>
