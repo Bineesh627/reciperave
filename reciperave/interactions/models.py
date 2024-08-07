@@ -13,12 +13,12 @@ class Comments(models.Model):
 
     class Meta:
         db_table = 'tbl_comments'
+        unique_together = ('recipe', 'user') 
 
 class Rating(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ratings')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField()
-    comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

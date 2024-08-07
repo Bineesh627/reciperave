@@ -132,6 +132,7 @@ venv.bak/
 
 # media files
 
+media/*
 media/pictures/*
 media/profile_pics/*
 

@@ -1,6 +1,6 @@
-<!-- templates/interactions/edit_rate_post.html -->
 {% load static %}
 <link rel="stylesheet" href="{% static 'interactions/css/rate_comment.css' %}">
+
 <form method="post" action="{% url 'edit_rating_and_comment' recipe.id %}">
     {% csrf_token %}
 
@@ -18,16 +18,14 @@
     <div class="comments-section">
         <h3>Comment</h3>
         <div class="comment-box">
-            <textarea name="comments" placeholder="Write your comment..." style="height:100px;">{{ comments.comments }}</textarea>
+            <textarea name="comments" placeholder="Write your comment..." style="height:100px;">{{ comment.comments }}</textarea>
         </div>
     </div>
 
-    <div class="row">
-        <input type="submit" value="Submit">
+    <div class="btn-group">
+        <input type="submit" class="btn submit" value="Submit">
     </div>
 </form>
-
-<script src="{% static 'interactions/js/rating.js' %}"></script>
 <script>
     function setRating(n) {
         let stars = document.getElementsByClassName("star");

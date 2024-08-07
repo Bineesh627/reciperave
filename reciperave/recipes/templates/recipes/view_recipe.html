@@ -95,51 +95,57 @@
         </table>
       </section> -->
       <section id="testimonials">
-        <div class="testimonial-box-container">
-            {% for rating in ratings %}
-            <div class="testimonial-box">
-                <div class="box-top">
-                    <!-- profile -->
-                    <div class="profile">
-                        <!-- img -->
-                        <div class="profile-img">
-                            {% if rating.user.profile.profile_picture %}
-                            <img src="{{ rating.user.profile.profile_picture.url }}" alt="{{ rating.user.username }}" />
-                            {% endif %}
-                        </div>
-                        <!-- name and username -->
-                        <div class="name-user">
-                            <strong>{{ rating.user.get_full_name }}</strong>
-                            <span>{{ rating.user.username }}</span>
-                        </div>
-                    </div>
-    
-                    <!-- reviews -->
-                    <div class="reviews">
-                        {% for i in "12345" %}
-                        {% if i|add:"0" <= rating.rating %}
-                        <i class='bx bxs-star'></i>
-                        {% else %}
-                        <i class='bx bx-star'></i>
+    <div class="testimonial-box-container">
+        {% for rating in ratings %}
+        <div class="testimonial-box">
+            <div class="box-top">
+                <!-- profile -->
+                <div class="profile">
+                    <!-- img -->
+                    <div class="profile-img">
+                        {% if rating.user.profile.profile_picture %}
+                        <img src="{{ rating.user.profile.profile_picture.url }}" alt="{{ rating.user.username }}" />
                         {% endif %}
-                        {% endfor %}
+                    </div>
+                    <!-- name and username -->
+                    <div class="name-user">
+                        <strong>{{ rating.user.get_full_name }}</strong>
+                        <span>{{ rating.user.username }}</span>
                     </div>
                 </div>
-                <!-- Comments -->
-                <div class="client-comment">
-                    <p>{{ rating.comment }}</p>
-                    <small>Posted: {{ rating.created_at }}</small>
-                    <!-- Edit Option -->
-                    {% if rating.user == user %}
-                    <a href="javascript:void(0);" onclick="toggleEditForm();" class="btn edit-btn">Edit</a>
+
+                <!-- reviews -->
+                <div class="reviews">
+                    {% for i in "12345" %}
+                    {% if i|add:"0" <= rating.rating %}
+                    <i class='bx bxs-star'></i>
+                    {% else %}
+                    <i class='bx bx-star'></i>
                     {% endif %}
+                    {% endfor %}
                 </div>
             </div>
-            {% empty %}
-            <p>No ratings yet.</p>
-            {% endfor %}
+            <!-- Comments -->
+            <div class="client-comment">
+                {% with comments|dictsort:"created_at" as sorted_comments %}
+                {% for comment in sorted_comments %}
+                {% if comment.user == rating.user %}
+                <p>{{ comment.comments }}</p>
+                <small>Posted: {{ comment.created_at }}</small>
+                {% if comment.user == user %}
+                <a href="javascript:void(0);" onclick="toggleEditForm();" class="btn edit-btn">Edit</a>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+                {% endwith %}
+            </div>
         </div>
-    </section>
+        {% empty %}
+        <p>No ratings yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
 
     <div class="wrapper">
       <!-- Form will be included based on the conditions -->

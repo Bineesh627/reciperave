@@ -30,7 +30,6 @@ def submit_rating_and_comment(request, recipe_id):
                 recipe=recipe,
                 user=request.user,
                 rating=rating_value,
-                comment=comment_text
             )
         
         for comment_text in comments_texts:
@@ -43,8 +42,6 @@ def submit_rating_and_comment(request, recipe_id):
         
         return redirect('homes')
 
-# interactions/views.py
-
 @login_required
 def edit_rating_and_comment(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
@@ -55,7 +52,7 @@ def edit_rating_and_comment(request, recipe_id):
         user=request.user
     )
     
-    # Fetch the existing comment for the current user and recipe
+    # Fetch the comment for the current user and recipe
     comment = Comments.objects.filter(recipe=recipe, user=request.user).first()
 
     if request.method == 'POST':
@@ -84,6 +81,6 @@ def edit_rating_and_comment(request, recipe_id):
     context = {
         'recipe': recipe,
         'rating': rating,
-        'comments': comment  # Pass a single comment instance
+        'comment': comment  # Corrected to pass a single comment instance
     }
     return render(request, 'interactions/edit_rate_post.html', context)

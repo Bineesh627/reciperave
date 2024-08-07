@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Rating, Comments
 
 class RatingAdmin(admin.ModelAdmin):
-    list_display = ('recipe', 'user', 'rating', 'comment', 'created_at')
+    list_display = ('recipe', 'user', 'rating', 'created_at')
     list_filter = ('recipe', 'user', 'rating')
 
 class CommentsAdmin(admin.ModelAdmin):

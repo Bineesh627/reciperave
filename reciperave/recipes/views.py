@@ -55,8 +55,10 @@ def view_recipe(request, recipe_id):
     # Check if the recipe is bookmarked by the user
     is_bookmarked = Bookmark.objects.filter(recipe=recipe, user=request.user).exists()
     
-    # Fetch all ratings and comments for the recipe
+    # Fetch all ratings for the recipe
     ratings = Rating.objects.filter(recipe=recipe)
+    
+    # Fetch all comments for the recipe
     comments = Comments.objects.filter(recipe=recipe)
     
     # Fetch current user's rating and comments if they exist
