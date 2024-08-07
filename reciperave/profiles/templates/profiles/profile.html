@@ -1,13 +1,23 @@
-{% extends 'profiles/base.html' %}
+{% extends 'base/base.html' %}
 
 {% block title %}{{ current_user.username }} Profile{% endblock %}
 
+{% block css_static %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+{% load static %}
+<link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
+<link rel="stylesheet" href="{% static 'base/css/cards.css' %}">
+{% endblock %}
+
 {% block content %}
 <header>
-    <div class="container">
+    <div class="container-profile">
         <div class="profile">
             <div class="profile-image">
-                <img src="{{ current_user.profile_picture }}" alt="" style=" height: 112px; width: 112px; max-height:112px; max-width: 112px; border-radius: 50%; overflow: hidden;">
+                <img src="{{ current_user.profile_picture }}" alt=""
+                    style=" height: 112px; width: 112px; max-height:112px; max-width: 112px; border-radius: 50%; overflow: hidden;">
             </div>
 
             <div class="profile-user-settings">
@@ -16,10 +26,10 @@
                 {% if is_own_profile %}
                 <button class="btn profile-edit-btn" onclick="redirectToProfileEdit()">Edit Profile</button>
                 {% elif not is_following %}
-                    {% include 'follows/follow.html' %}
+                {% include 'follows/follow.html' %}
                 {% else %}
                 {% include 'follows/unfollow.html' %}
-                    {% endif %}
+                {% endif %}
             </div>
 
             <div class="profile-stats">
@@ -38,11 +48,22 @@
             </div>
 
             <div class="profile-bio">
-                <p><span class="profile-real-name">{{ current_user.fname }} {{ current_user.lname }}</span> {{current_user.bio }}</p>
+                <p><span class="profile-real-name">{{ current_user.fname }} {{ current_user.lname }}</span>
+                    {{current_user.bio }}</p>
             </div>
         </div>
     </div>
 </header>
+
+<div class="card-container">
+    {% if recipes %}
+    {% for recipe in recipes %}
+    {% include 'base/cards.html' %}
+    {% endfor %}
+    {% else %}
+    <p>No recipes found.</p>
+    {% endif %}
+</div>
 
 <script>
     function redirectToProfileEdit() {
@@ -50,16 +71,4 @@
     }
 </script>
 
-{% endblock %}
-
-{% block post %}
-<div class="card-container">
-    {% if recipes %}
-        {% for recipe in recipes %}
-            {% include 'base_card/cards.html' %}
-        {% endfor %}
-    {% else %}
-        <p>No recipes found.</p>
-    {% endif %}
-</div>
 {% endblock %}

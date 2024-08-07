@@ -1,23 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>View Bookmarks</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'base_card/cards.css' %}">
-    <link rel="stylesheet" href="{% static 'bookmarks/css/view_bookmark.css' %}">
-</head>
-<body>
-    <header>
-        <h1>Bookmarked Recipes</h1>
-    </header>
-    <section>
-        <div class="card-container">
-            {% for recipe in recipes %}
-            {% include 'base_card/cards.html' %}
-            {% empty %}
-            <p>Create a bookmarks.</p>
-            {% endfor %}
-        </div>
-    </section>
-</body>
-</html>
+{% extends 'base/base.html' %}
+{% block title %}View Bookmarks{% endblock %}
+
+{% block css_static %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'base/css/cards.css' %}">
+<link rel="stylesheet" href="{% static 'bookmarks/css/view_bookmark.css' %}">
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Bookmarked Recipes</h1>
+</header>
+<section>
+    <div class="card-container">
+        {% for recipe in recipes %}
+        {% include 'base/cards.html' %}
+        {% empty %}
+        <p>Create a bookmarks.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

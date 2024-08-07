@@ -1,55 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base/base.html' %}
+{% block title %} Edit Profile {% endblock %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Edit Profile</title>
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'profiles/css/edit_profile.css' %}">
-</head>
+{% block css_static %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'profiles/css/edit_profile.css' %}">
+{% endblock %}
 
-<body>
-  <div class="container">
-    <form method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
+{% block content %}
+<div class="container-edit-profile">
+  <form method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
     {% csrf_token %}
-      <table>
-        <tr>
-          <td>
+    <table>
+      <tr>
+        <td>
           <label for="profile_picture">Profile Picture:</label>
-          </td>
-          <td>
-            <input type="file" id="profile_picture" name="profile_picture">  
-          </td>
-        </tr>
+        </td>
+        <td>
+          <input type="file" id="profile_picture" name="profile_picture">
+        </td>
+      </tr>
 
-        <tr>
-          <td>
-            <label for="username">Username:</label>
-          </td>
-          <td>
-            <input type="text" id="username" name="username" value="{{ user.username }}">
-          </td>
-        </tr>
+      <tr>
+        <td>
+          <label for="username">Username:</label>
+        </td>
+        <td>
+          <input type="text" id="username" name="username" value="{{ user.username }}">
+        </td>
+      </tr>
 
-        <tr>
-          <td>
-            <label for="bio">Bio:</label>
-          </td>
-          <td>
-            <textarea id="bio" name="bio">{{ profile.bio }}</textarea>
-          </td>
-        </tr>
+      <tr>
+        <td>
+          <label for="bio">Bio:</label>
+        </td>
+        <td>
+          <textarea id="bio" name="bio">{{ profile.bio }}</textarea>
+        </td>
+      </tr>
 
-        <tr>
-          <td>
-            <input type="submit" value="Update">
-          </td>
-        </tr>
-      </table>
-    </form>
-  </div>
-</body>
-
-</html>
+      <tr>
+        <td>
+          <input type="submit" value="Update">
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+{% endblock %}

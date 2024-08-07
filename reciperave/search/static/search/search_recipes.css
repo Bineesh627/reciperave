@@ -1,15 +1,4 @@
-* {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-    font-family: sans-serif;
-}
-
-body {
-    background-color: #f0f0f0;
-}
-
-.container {
+.container-search {
     margin: 0 auto;
     padding: 0 15px;
 }

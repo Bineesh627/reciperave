@@ -8,20 +8,13 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: sans-serif;
-    min-height: 100vh;
-    background-color: #fafafa;
-    color: #262626;
-    padding-bottom: 3rem;
-}
-
 img {
     display: block;
 }
 
-.container {
+.container-profile {
     max-width: 93.5rem;
+    max-height: 100vh;
     margin: 0 auto;
     padding: 0 2rem;
 }
