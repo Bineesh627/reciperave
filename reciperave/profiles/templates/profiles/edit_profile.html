@@ -7,6 +7,9 @@
 {% endblock %}
 
 {% block content %}
+<header>
+  <h1>Edit Profile</h1>
+</header>
 <div class="container-edit-profile">
   <form method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
     {% csrf_token %}

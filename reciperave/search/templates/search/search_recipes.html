@@ -5,7 +5,7 @@
 {% load static %}
 {% block css_static %}
 <link rel="stylesheet" href="{% static 'base/css/cards.css' %}">
-<link rel="stylesheet" href="{% static 'search/search_recipes.css' %}">
+<link rel="stylesheet" href="{% static 'search/css/search_recipes.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -15,20 +15,15 @@
 <div class="container-search">
     <main>
         <form method="GET" action="{% url 'search_recipes' %}">
-            <div class="form-group">
-                <label for="title">Search by Title:</label>
-                <input type="text" placeholder="Search recipes..." id="title" name="title" value="{{ request.GET.title }}">
-            </div>
-            <div class="form-group">
-                <label for="dishType">Dish Type:</label>
-                <select id="dishType" name="dishType">
+            <div class="search-filter">
+                <input type="text" id="searchInput" name="title" placeholder="Search..." value="{{ request.GET.title }}">
+                <select id="filterSelect" name="dishType">
                     <option value="">All Dish Types</option>
                     {% for category in categories %}
                     <option value="{{ category.dishtype }}" {% if category.dishtype == selected_dish_type %}selected{% endif %}>{{ category.dishtype }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <button type="submit">Search</button>
         </form>
         <section>
             <h2>Result</h2>
@@ -42,5 +37,8 @@
         </section>
     </main>
 </div>
+{% endblock %}
 
+{% block java_static %}
+<script src="{% static 'search/js/search_recipes.js' %}"></script>
 {% endblock %}

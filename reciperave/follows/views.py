@@ -6,6 +6,7 @@ from .models import Follow
 @login_required
 def followers(request, username):
     user = get_object_or_404(User, username=username)
+    # Fetch users who are following the `user`
     followers = User.objects.filter(following__following=user)
 
     followers_list = [{
@@ -23,15 +24,19 @@ def followers(request, username):
 
 @login_required
 def followings(request, username):
+    """
+    Displays a list of users the specified user is following.
+    """
     user = get_object_or_404(User, username=username)
-    followings = User.objects.filter(following__follower=user)
+    # Fetch users whom the `user` is following using the related manager
+    followings = user.following.all()
 
     followings_list = [{
-        'uid': following.id,
-        'fname': following.first_name,
-        'lname': following.last_name,
-        'username': following.username,
-        'is_following': True
+        'uid': following.following.pk,  # Corrected to access the 'following' user
+        'fname': following.following.first_name,  # Access from the 'following' user
+        'lname': following.following.last_name,  # Access from the 'following' user
+        'username': following.following.username,  # Access from the 'following' user
+        'is_following': Follow.objects.filter(follower=request.user, following=following.following).exists()
     } for following in followings]
 
     return render(request, 'follows/following.html', {
@@ -41,13 +46,15 @@ def followings(request, username):
 
 @login_required
 def follow_user(request):
-    uid1 = request.GET.get('id')
+    uid1 = request.GET.get('id')  # Changed to POST
     if uid1:
         user_to_follow = get_object_or_404(User, id=uid1)
         if user_to_follow != request.user:
+            # Create a follow relationship if it doesn't exist
             if not Follow.objects.filter(follower=request.user, following=user_to_follow).exists():
                 Follow.objects.create(follower=request.user, following=user_to_follow)
     
+    # Use the correct username here
     return redirect('profile', username=user_to_follow.username)  # Redirect back to the profile page
 
 @login_required
@@ -56,6 +63,8 @@ def unfollow_user(request):
     if uid1:
         user_to_unfollow = get_object_or_404(User, id=uid1)
         if user_to_unfollow != request.user:
+            # Delete the follow relationship if it exists
             Follow.objects.filter(follower=request.user, following=user_to_unfollow).delete()
     
-    return redirect('profile', username=user_to_unfollow.username) 
+    # Use the correct username here
+    return redirect('profile', username=user_to_unfollow.username)

@@ -3,13 +3,13 @@
         <!-- Unbookmark button -->
         <form method="post" action="{% url 'unbookmark' recipe.id %}">
             {% csrf_token %}
-            <button type="submit">Unbookmark this Recipe</button>
+            <button type="submit">Unbookmark</button>
         </form>
     {% else %}
         <!-- Bookmark button -->
         <form method="post" action="{% url 'bookmark' recipe.id %}">
             {% csrf_token %}
-            <button type="submit">Bookmark this Recipe</button>
+            <button type="submit">Bookmark</button>
         </form>
     {% endif %}
 {% endif %}

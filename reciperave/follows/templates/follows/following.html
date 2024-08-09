@@ -20,6 +20,12 @@
                         <input type="hidden" name="id" value="{{ following.uid }}">
                         <button type="submit" class="btn btn-follow">Following</button>
                     </form>
+                    {% else %}
+                        <form method="get" action="{% url 'follow_user' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value="{{ following.id }}">
+                            <button type="submit" class="btn btn-follow">Follow</button>
+                        </form>
                     {% endif %}
                 </li>
                 {% empty %}

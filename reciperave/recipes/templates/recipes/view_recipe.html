@@ -12,6 +12,9 @@
   <link rel="stylesheet" href="{% static 'interactions/css/rate_comment.css' %}">
 </head>
 <body>
+  <header>
+    <h1>Post</h1>
+  </header>
   <main class="main-container">
     <article class="main-contents">
       <!--Hero-->
@@ -19,7 +22,7 @@
         <div class="media">
           {% if recipe.video %}
           <div class="image">
-            <video width="200px" height="200px" controls>
+            <video width="550px" height="350px" controls>
             <source src="{{ recipe.video.url }}" type="video/mp4">
             Your browser does not support the video tag.
           </video>

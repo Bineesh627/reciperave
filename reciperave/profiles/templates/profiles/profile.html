@@ -15,11 +15,15 @@
 <header>
     <div class="container-profile">
         <div class="profile">
+            {% if current_user.profile_picture %}
             <div class="profile-image">
-                <img src="{{ current_user.profile_picture }}" alt=""
-                    style=" height: 112px; width: 112px; max-height:112px; max-width: 112px; border-radius: 50%; overflow: hidden;">
+                <img src="{{ current_user.profile_picture }}" alt="" style=" height: 112px; width: 112px; max-height:112px; max-width: 112px; border-radius: 50%; overflow: hidden;">
             </div>
-
+            {% else %}
+            <div class="profile-image">
+                <img src="{% static 'profiles/images/no-profile.png' %}" alt="" style=" height: 112px; width: 112px; max-height:112px; max-width: 112px; border-radius: 50%; overflow: hidden;">
+            </div>
+            {% endif %}
             <div class="profile-user-settings">
                 <h1 class="profile-user-name">{{ current_user.username }}</h1>
 
@@ -35,14 +39,13 @@
             <div class="profile-stats">
                 <ul>
                     <li><span class="profile-stat-count">{{ recipe_count }}</span> posts</li>
-                    <a style="color: black; text-decoration: none;"
-                        href="{% url 'followers' username=current_user.username %}">
-                        <li><span class="profile-stat-count">{{ followers_count }}</span> followers</li>
-                    </a>
-                    <a style="color: black; text-decoration: none;"
-                        href="{% url 'followings' username=current_user.username %}">
-                        <li><span class="profile-stat-count">{{ following_count }}</span> following</li>
-                    </a>
+                    <li class="clickable" data-url="{% url 'followers' username=current_user.username %}">
+                        <span class="profile-stat-count">{{ followers_count }}</span> followers
+                    </li>
+
+                    <li class="clickable" data-url="{% url 'followings' username=current_user.username %}">
+                        <span class="profile-stat-count">{{ following_count }}</span> following
+                    </li>
 
                 </ul>
             </div>
@@ -69,6 +72,19 @@
     function redirectToProfileEdit() {
         window.location.href = "{% url 'edit_profile' %}";
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const clickableItems = document.querySelectorAll('.clickable');
+
+        clickableItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const url = item.getAttribute('data-url');
+                if (url) {
+                    window.location.href = url;
+                }
+            });
+        });
+    });
 </script>
 
 {% endblock %}
