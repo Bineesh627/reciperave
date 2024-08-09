@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .forms import RecipeForm
 from .models import Recipe, Category
 from bookmarks.models import Bookmark
+from profiles.models import Profile
 from interactions.models import Rating, Comments
 from django.contrib.auth.decorators import login_required
 
@@ -54,6 +55,10 @@ def view_recipe(request, recipe_id):
 
     is_author = request.user == recipe.user
 
+    user = recipe.user
+
+    profile = get_object_or_404(Profile, user=user)
+
     # Check if the recipe is bookmarked by the user
     is_bookmarked = Bookmark.objects.filter(recipe=recipe, user=request.user).exists()
     
@@ -75,6 +80,7 @@ def view_recipe(request, recipe_id):
         'user_comments': user_comments,
         'is_bookmarked': is_bookmarked,
         'is_author': is_author,
+        'profile': profile,
     }
     
     return render(request, 'recipes/view_recipe.html', context)

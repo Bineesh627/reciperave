@@ -24,9 +24,6 @@ def followers(request, username):
 
 @login_required
 def followings(request, username):
-    """
-    Displays a list of users the specified user is following.
-    """
     user = get_object_or_404(User, username=username)
     # Fetch users whom the `user` is following using the related manager
     followings = user.following.all()

@@ -1,0 +1,68 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'base/css/three-dot.css' %}">
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const clickableItems = document.querySelectorAll('.more-menu-item');
+
+        clickableItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const url = item.getAttribute('data-url');
+                if (url) {
+                    window.location.href = url;
+                }
+            });
+        });
+    });
+</script>
+
+<div class="post">
+    <div class="info">
+        <div class="user">
+            {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" alt="" style=" height: 60px; width: 65px; max-height: 60px; max-width: 65px; border-radius: 50%; overflow: hidden;">
+            {% else %}
+            <img src="{% static 'profiles/images/no-profile.png' %}" alt="" style=" height: 60px; width: 65px; max-height: 60px; max-width: 65px; border-radius: 50%; overflow: hidden;">
+            {% endif %}
+            <p class="username">{{ recipe.user.username }}</p>
+        </div>
+
+        <div class="options">
+            <div class="container-more-btn">
+                <div class="more">
+                    <button id="more-btn" class="more-btn">
+                        <span class="more-dot"></span>
+                        <span class="more-dot"></span>
+                        <span class="more-dot"></span>
+                    </button>
+                    <div class="more-menu">
+                        <div class="more-menu-caret">
+                            <div class="more-menu-caret-outer"></div>
+                            <div class="more-menu-caret-inner"></div>
+                        </div>
+                        <ul class="more-menu-items" tabindex="-1" role="menu">
+                            <a href="{% url 'profile' username=recipe.user.username %}">
+                                <li class="more-menu-item" role="presentation">
+                                    <button type="button" class="more-menu-btn" role="menuitem">Profile</button>
+                                </li>
+                            </a>
+                            <li class="more-menu-item" role="presentation">
+                                <button type="button" class="more-menu-btn" role="menuitem">Embed</button>
+                            </li>
+                            <li class="more-menu-item" role="presentation">
+                                <button type="button" class="more-menu-btn" role="menuitem">Block</button>
+                            </li>
+                            <li class="more-menu-item" role="presentation">
+                                <button type="button" class="more-menu-btn" role="menuitem">Report</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="{% static 'base/js/three-dot.js' %}"></script>

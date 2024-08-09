@@ -13,7 +13,7 @@
 </head>
 <body>
   <header>
-    <h1>Post</h1>
+    {% include 'base/three_dot.html' %}
   </header>
   <main class="main-container">
     <article class="main-contents">
@@ -32,7 +32,9 @@
             <img src="{{ recipe.photo.url }}" alt="{{ recipe.recipe_name }}">
           </div>
           {% else %}
-          <p>No media available</p>
+          <div class="image">
+            <p class="image-video-error">No media available</p>
+          </div>
           {% endif %}
         </div>
         

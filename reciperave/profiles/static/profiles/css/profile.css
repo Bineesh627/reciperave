@@ -82,6 +82,8 @@ img {
     border-radius: 0.3rem;
     padding: 0 2.4rem;
     margin-left: 2rem;
+    background-color: #007bff;
+    color: #fff;
 }
 
 .profile-stats {
