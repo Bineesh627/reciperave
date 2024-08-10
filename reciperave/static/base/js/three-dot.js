@@ -9,7 +9,7 @@ function showMenu(e) {
         visible = true;
         el.classList.add('show-more-menu');
         menu.setAttribute('aria-hidden', false);
-        document.addEventListener('mousedown', hideMenu, false);
+        // document.addEventListener('mousedown', hideMenu, false);
     }
 }
 
@@ -20,8 +20,8 @@ function hideMenu(e) {
     if (visible) {
         visible = false;
         el.classList.remove('show-more-menu');
-        menu.setAttribute('aria-hidden', true);
-        document.removeEventListener('mousedown', hideMenu);
+        // menu.setAttribute('aria-hidden', true);
+        // document.removeEventListener('mousedown', hideMenu);
     }
 }
 

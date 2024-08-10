@@ -4,11 +4,31 @@ from .forms import RegistrationForm, LoginForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from profiles.models import Profile
+from follows.models import Follow
+from django.contrib.auth.models import User
 from django.views.decorators.cache import cache_control
 
 @login_required
 def homes(request):
-    return render(request, 'users/homes.html')
+    # Get the logged-in user
+    current_user = request.user
+
+    # Get all profiles except the logged-in user's profile
+    profiles = Profile.objects.exclude(user=current_user)
+
+    # Prepare data for the template
+    profile_data = []
+
+    for profile in profiles:
+        # Check if the logged-in user is following the profile user
+        is_followed = Follow.objects.filter(follower=current_user, following=profile.user).exists()
+        profile_data.append({
+            'profile': profile,
+            'is_followed': is_followed,
+        })
+
+    return render(request, 'users/homes.html', {'profile_data': profile_data})
+
 
 @cache_control(no_store=True, must_revalidate=True, no_cache=True)
 def registration(request):
@@ -40,15 +60,14 @@ def user_login(request):
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
-                if user.is_staff:
-                    form.add_error(None, 'Please enter a correct username and password. Note that both fields may be case-sensitive.')
-                else:
-                    login(request, user)
-                    return redirect('homes')  # Redirect to user home
+                login(request, user)
+                return redirect('homes')  # Redirect to user home
             else:
                 form.add_error(None, 'Invalid username or password')
     else:
         form = LoginForm()
+    if request.user.is_authenticated:
+        return redirect('homes') 
 
     return render(request, 'users/login.html', {'form': form})
 

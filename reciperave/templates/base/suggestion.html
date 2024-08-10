@@ -1,0 +1,49 @@
+{% load static %}
+
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+<!-- CSS -->
+<link rel="stylesheet" href="{% static 'base/css/suggestion.css' %}">
+
+<div class="slide-container swiper">
+    <div class="slide-content">
+        <div class="card-wrapper swiper-wrapper">
+            {% for data in profile_data %}
+            <div class="card-length card swiper-slide" data-followed="{{ data.is_followed }}" data-profile="{% url 'profile' username=data.profile.user.username %}">
+                <div class="image-content">
+                    <span class="overlay"></span>
+                    {% if data.profile.profile_picture %}
+                    <div class="card-image">
+                        <img src="{{ data.profile.profile_picture.url }}" alt="Profile Image" class="card-img">
+                    </div>
+                    {% else %}
+                    <div class="card-image">
+                        <img src="{% static 'profiles/images/no-profile.png' %}" alt="Profile Image" class="card-img">
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="card-content">
+                    <h2 class="name">{{ data.profile.user.username }}</h2>
+                    {% if data.is_followed %}
+                        <!-- If followed, no button or message can be added here -->
+                    {% else %}
+                        <button class="button">View More</button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="swiper-button-next swiper-navBtn"></div>
+    <div class="swiper-button-prev swiper-navBtn"></div>
+    <div class="swiper-pagination"></div>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- JavaScript -->
+<script src="{% static 'base/js/suggestion.js' %}"></script>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,27 +8,46 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'follows/css/follows.css' %}">
 </head>
+
 <body>
     <div class="container">
         <h1>Followers</h1>
         <section class="followers">
             <ul id="followers-list">
                 {% for follower in followers_list %}
-                <li>
-                    <span>{{ follower.fname }} {{ follower.lname }} ({{ follower.username }})</span>
-                    {% if follower.is_following_back %}
-                    <form method="get" action="{% url 'unfollow_user' %}">
-                        <input type="hidden" name="id" value="{{ follower.uid }}">
-                        <button type="submit" class="btn btn-follow">Remove</button>
-                    </form>
-                    {% else %}
-                        <form method="get" action="{% url 'follow_user' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="id" value="{{ follower.uid }}">
-                            <button type="submit" class="btn btn-follow">Follow</button>
-                        </form>
-                    {% endif %}
-                </li>
+                <a href="{% url 'profile' username=follower.username %}" style="text-decoration: none;">
+                    <li>
+                        <table cellpadding="14" style="text-align: center; width: 100%; color: black">
+                            <tr>
+                                <td>
+                                    <img src="{{ follower.uid.profile.profile_picture.url}}"
+                                        alt="{{ follower.username }}"
+                                        style="height: 54px; width: 55px; max-height: 54px; max-width: 55px; border-radius: 50%; overflow: hidden;">
+                                </td>
+                                <td>
+                                    <span>{{ follower.fname }} {{ follower.lname }}</span>
+                                </td>
+
+                                <td>
+                                    {% if follower.is_following_back %}
+                                    <form method="get" action="{% url 'unfollow_user' %}">
+                                        <input type="hidden" name="id" value="{{ follower.uid }}">
+                                        <button type="submit" class="btn btn-follow">Remove</button>
+                                    </form>
+                                </td>
+                                {% else %}
+                            <tr>
+                                <form method="get" action="{% url 'follow_user' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="{{ follower.uid }}">
+                                    <button type="submit" class="btn btn-follow">Follow</button>
+                                </form>
+                            </tr>
+                            {% endif %}
+                            </tr>
+                        </table>
+                    </li>
+                </a>
                 {% empty %}
                 <li>No followers found.</li>
                 {% endfor %}
@@ -37,4 +57,5 @@
 
     <script src="{% static 'follows/js/follows.js' %}"></script>
 </body>
+
 </html>

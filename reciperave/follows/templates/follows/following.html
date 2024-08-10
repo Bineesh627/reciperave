@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,27 +8,43 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'follows/css/follows.css' %}">
 </head>
+
 <body>
     <div class="container">
         <h1>Following</h1>
         <section class="followings">
             <ul id="followings-list">
                 {% for following in followings_list %}
-                <li>
-                    <span>{{ following.fname }} {{ following.lname }} ({{ following.username }})</span>
-                    {% if following.is_following %}
-                    <form method="get" action="{% url 'unfollow_user' %}">
-                        <input type="hidden" name="id" value="{{ following.uid }}">
-                        <button type="submit" class="btn btn-follow">Following</button>
-                    </form>
-                    {% else %}
-                        <form method="get" action="{% url 'follow_user' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="id" value="{{ following.uid }}">
-                            <button type="submit" class="btn btn-follow">Follow</button>
-                        </form>
-                    {% endif %}
-                </li>
+                <a href="{% url 'profile' username=following.username %}" style="text-decoration: none;">
+                    <li>
+                        <table cellpadding="14" style="text-align: center; width: 100%; color: black">
+                            <tr>
+                                <td>
+                                    <img src="" alt="">
+                                </td>
+                                <td>
+                                    <span>{{ following.fname }} {{ following.lname }}</span>
+                                </td>
+                                <td>
+                                    {% if following.is_following %}
+                                    <form method="get" action="{% url 'unfollow_user' %}">
+                                        <input type="hidden" name="id" value="{{ following.uid }}">
+                                        <button type="submit" class="btn btn-follow">Following</button>
+                                    </form>
+                                </td>
+                                {% else %}
+                                <td>
+                                    <form method="get" action="{% url 'follow_user' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ following.uid }}">
+                                        <button type="submit" class="btn btn-follow">Follow</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                {% endif %}
+                        </table>
+                    </li>
+                </a>
                 {% empty %}
                 <li>Not following anyone yet.</li>
                 {% endfor %}
@@ -37,4 +54,5 @@
 
     <script src="{% static 'follows/js/follows.js' %}"></script>
 </body>
+
 </html>

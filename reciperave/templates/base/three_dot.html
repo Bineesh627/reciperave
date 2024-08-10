@@ -19,14 +19,16 @@
 
 <div class="post">
     <div class="info">
-        <div class="user">
-            {% if profile.profile_picture %}
-                <img src="{{ profile.profile_picture.url }}" alt="" style=" height: 60px; width: 65px; max-height: 60px; max-width: 65px; border-radius: 50%; overflow: hidden;">
-            {% else %}
-            <img src="{% static 'profiles/images/no-profile.png' %}" alt="" style=" height: 60px; width: 65px; max-height: 60px; max-width: 65px; border-radius: 50%; overflow: hidden;">
-            {% endif %}
-            <p class="username">{{ recipe.user.username }}</p>
-        </div>
+        <a href="{% url 'profile' username=recipe.user.username %}">
+            <div class="user">
+                {% if profile.profile_picture %}
+                    <img src="{{ profile.profile_picture.url }}" alt="" style=" height: 60px; width: 65px; max-height: 60px; max-width: 65px; border-radius: 50%; overflow: hidden;">
+                {% else %}
+                <img src="{% static 'profiles/images/no-profile.png' %}" alt="" style=" height: 60px; width: 65px; max-height: 60px; max-width: 65px; border-radius: 50%; overflow: hidden;">
+                {% endif %}
+                <p class="username">{{ recipe.user.username }}</p>
+            </div>
+        </a>
 
         <div class="options">
             <div class="container-more-btn">
