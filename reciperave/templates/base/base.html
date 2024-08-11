@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% load custom_filters %}
   <title>{% block title %}{% endblock %}</title>
   {% load static %}
   <link rel="stylesheet" href="{% static 'base/css/base.css' %}" />
@@ -24,38 +25,38 @@
         </svg>
       </div>
       <ul class="link-items">
-        <li class="link-item active">
+        <li class="link-item {% if current_url == '/' or current_url == '/home/' %}active{% endif %}">
           <a href="{% url 'homes' %}" class="link">
             <ion-icon name="home-outline"></ion-icon>
             <span style="--i: 1">Home</span>
           </a>
         </li>
 
-        <li class="link-item">
+        <li class="link-item {% if current_url == '/search/' %}active{% endif %}">
           <a href="{% url 'search_recipes' %}" class="link"><ion-icon name="search-outline"></ion-icon>
             <span style="--i: 3">search</span>
           </a>
         </li>
 
-        <li class="link-item">
+        <li class="link-item {% if current_url == '/bookmarks/' %}active{% endif %}">
           <a href="{% url 'view_bookmark' %}" class="link">
             <ion-icon name="bookmark-outline"></ion-icon><span style="--i: 5">bookmarks</span>
           </a>
         </li>
 
-        <li class="link-item">
+        <li class="link-item {% if current_url == '/upload_recipe/' %}active{% endif %}">
           <a href="{% url 'upload_recipe' %}" class="link">
             <ion-icon name="cloud-upload-outline"></ion-icon><span style="--i: 7">Upload Recipe</span>
           </a>
         </li>
 
-        <li class="link-item">
+        <li class="link-item {% if current_url == '/feedback/' %}active{% endif %}">
           <a href="{% url 'feedback' %}" class="link">
             <ion-icon name="chatbubble-outline"></ion-icon><span style="--i: 9">Feedback</span>
           </a>
         </li>
 
-        <li class="link-item">
+        <li class="link-item {% if current_url|starts_with:'/profile/' %}active{% endif %}">
           <a href="{% url 'profile' username=user.username %}" class="link">
             <ion-icon name="person-outline"></ion-icon><span style="--i: 11">Profile</span>
           </a>

@@ -49,15 +49,23 @@
                                     <button type="button" class="more-menu-btn" role="menuitem">Profile</button>
                                 </li>
                             </a>
+                            {% if is_author %}
                             <li class="more-menu-item" role="presentation">
-                                <button type="button" class="more-menu-btn" role="menuitem">Embed</button>
+                                <form method="get" action="{% url 'edit_recipe' recipe.id %}">
+                                    <button type="submit"  class="more-menu-btn" role="menuitem">Edit</button>
+                                </form>
                             </li>
+
                             <li class="more-menu-item" role="presentation">
-                                <button type="button" class="more-menu-btn" role="menuitem">Block</button>
+                                {% include 'recipes/delete_recipe.html' %}
                             </li>
+                            {% endif %}
                             <li class="more-menu-item" role="presentation">
+                                {% include 'bookmarks/bookmark_recipe.html' %}
+                            </li>
+                            <!-- <li class="more-menu-item" role="presentation">
                                 <button type="button" class="more-menu-btn" role="menuitem">Report</button>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>

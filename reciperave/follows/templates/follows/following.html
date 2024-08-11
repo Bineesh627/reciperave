@@ -20,28 +20,12 @@
                         <table cellpadding="14" style="text-align: center; width: 100%; color: black">
                             <tr>
                                 <td>
-                                    <img src="" alt="">
+                                    <img src="{{ following.profile_picture.url }}" style="height: 50px; width: 50px; border-radius: 50%;">
                                 </td>
                                 <td>
                                     <span>{{ following.fname }} {{ following.lname }}</span>
                                 </td>
-                                <td>
-                                    {% if following.is_following %}
-                                    <form method="get" action="{% url 'unfollow_user' %}">
-                                        <input type="hidden" name="id" value="{{ following.uid }}">
-                                        <button type="submit" class="btn btn-follow">Following</button>
-                                    </form>
-                                </td>
-                                {% else %}
-                                <td>
-                                    <form method="get" action="{% url 'follow_user' %}">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="id" value="{{ following.uid }}">
-                                        <button type="submit" class="btn btn-follow">Follow</button>
-                                    </form>
-                                </td>
                             </tr>
-                                {% endif %}
                         </table>
                     </li>
                 </a>
@@ -51,8 +35,6 @@
             </ul>
         </section>
     </div>
-
-    <script src="{% static 'follows/js/follows.js' %}"></script>
 </body>
 
 </html>

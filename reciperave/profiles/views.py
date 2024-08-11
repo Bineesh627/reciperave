@@ -44,7 +44,7 @@ def profile(request, username):
     is_own_profile = request.user == user_profile
 
     # Fetch only the recipes belonging to the user_profile
-    recipes = Recipe.objects.filter(user=user_profile)
+    recipes = Recipe.objects.filter(user=user_profile).select_related('user')
 
     # Determine if the current user is following the user_profile
     is_following = Follow.objects.filter(follower=request.user, following=user_profile).exists()

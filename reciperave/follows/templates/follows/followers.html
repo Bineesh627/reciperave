@@ -27,23 +27,6 @@
                                 <td>
                                     <span>{{ follower.fname }} {{ follower.lname }}</span>
                                 </td>
-
-                                <td>
-                                    {% if follower.is_following_back %}
-                                    <form method="get" action="{% url 'unfollow_user' %}">
-                                        <input type="hidden" name="id" value="{{ follower.uid }}">
-                                        <button type="submit" class="btn btn-follow">Remove</button>
-                                    </form>
-                                </td>
-                                {% else %}
-                            <tr>
-                                <form method="get" action="{% url 'follow_user' %}">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="id" value="{{ follower.uid }}">
-                                    <button type="submit" class="btn btn-follow">Follow</button>
-                                </form>
-                            </tr>
-                            {% endif %}
                             </tr>
                         </table>
                     </li>
@@ -55,7 +38,6 @@
         </section>
     </div>
 
-    <script src="{% static 'follows/js/follows.js' %}"></script>
 </body>
 
 </html>

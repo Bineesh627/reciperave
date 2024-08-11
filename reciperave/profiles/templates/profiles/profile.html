@@ -3,6 +3,8 @@
 {% block title %}{{ current_user.username }} Profile{% endblock %}
 
 {% block css_static %}
+<meta name="csrf-token" content="{{ csrf_token }}">
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
@@ -17,11 +19,11 @@
         <div class="profile">
             {% if current_user.profile_picture %}
             <div class="profile-image">
-                <img src="{{ current_user.profile_picture }}" alt="" style=" height: 112px; width: 112px; max-height:112px; max-width: 112px; border-radius: 50%; overflow: hidden;">
+                <img src="{{ current_user.profile_picture }}" style="height: 112px; width: 112px; max-height: 112px; max-width: 112px; border-radius: 50%; overflow: hidden;">
             </div>
             {% else %}
             <div class="profile-image">
-                <img src="{% static 'profiles/images/no-profile.png' %}" alt="" style=" height: 112px; width: 120px; max-height:112px; max-width: 120px; border-radius: 50%; overflow: hidden;">
+                <img src="{% static 'profiles/images/no-profile.png' %}" alt="" style="height: 112px; width: 120px; max-height: 112px; max-width: 120px; border-radius: 50%; overflow: hidden;">
             </div>
             {% endif %}
             <div class="profile-user-settings">
@@ -29,10 +31,10 @@
 
                 {% if is_own_profile %}
                 <button class="btn profile-edit-btn" onclick="redirectToProfileEdit()">Edit Profile</button>
-                {% elif not is_following %}
-                {% include 'follows/follow.html' %}
                 {% else %}
-                {% include 'follows/unfollow.html' %}
+                <button class="btn profile-edit-btn" id="follow-btn" data-id="{{ current_user.uid }}" data-followed="{{ is_following }}">
+                    {% if is_following %}Unfollow{% else %}Follow{% endif %}
+                </button>
                 {% endif %}
             </div>
 
@@ -42,17 +44,15 @@
                     <li class="clickable" data-url="{% url 'followers' username=current_user.username %}">
                         <span class="profile-stat-count">{{ followers_count }}</span> followers
                     </li>
-
                     <li class="clickable" data-url="{% url 'followings' username=current_user.username %}">
                         <span class="profile-stat-count">{{ following_count }}</span> following
                     </li>
-
                 </ul>
             </div>
 
             <div class="profile-bio">
                 <p><span class="profile-real-name">{{ current_user.fname }} {{ current_user.lname }}</span>
-                    {{current_user.bio }}</p>
+                    {{ current_user.bio }}</p>
             </div>
         </div>
     </div>
@@ -69,14 +69,44 @@
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const followButton = document.getElementById('follow-btn');
+        
+        if (followButton) {
+            followButton.addEventListener('click', function () {
+                const userId = this.getAttribute('data-id');
+                const isFollowed = this.getAttribute('data-followed') === 'true';
+                const url = isFollowed ? `{% url 'unfollow_user' %}` : `{% url 'follow_user' %}`;
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: `id=${userId}`
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.is_followed) {
+                            followButton.textContent = 'Unfollow';
+                            followButton.setAttribute('data-followed', 'true');
+                        } else {
+                            followButton.textContent = 'Follow';
+                            followButton.setAttribute('data-followed', 'false');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        }
+    });
+
     function redirectToProfileEdit() {
         window.location.href = "{% url 'edit_profile' %}";
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        const clickableItems = document.querySelectorAll('.clickable');
-
-        clickableItems.forEach(item => {
+        document.querySelectorAll('.clickable').forEach(item => {
             item.addEventListener('click', () => {
                 const url = item.getAttribute('data-url');
                 if (url) {

@@ -37,16 +37,6 @@
           </div>
           {% endif %}
         </div>
-        
-        {% if is_author %}
-        <form method="get" action="{% url 'edit_recipe' recipe.id %}">
-          <button type="submit">Edit</button>
-        </form>
-        {% include 'recipes/delete_recipe.html' %}
-        {% endif %}
-        {% include 'bookmarks/bookmark_recipe.html' %}
-
-        <a href="{% url 'profile' username=recipe.user.username %}">Profile</a>
 
         <h1>{{ recipe.recipe_name }}</h1>
         <p class="description">{{ recipe.description }}</p>
@@ -86,6 +76,8 @@
                         <div class="profile-img">
                             {% if rating.user.profile.profile_picture %}
                             <img src="{{ rating.user.profile.profile_picture.url }}" alt="{{ rating.user.username }}" />
+                            {% else %}
+                            <img src="{% static 'profiles/images/no-profile.png' %}" alt="{{ rating.user.username }}" />
                             {% endif %}
                         </div>
                         <!-- name and username -->

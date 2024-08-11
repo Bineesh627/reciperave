@@ -10,27 +10,25 @@
     <div class="slide-content">
         <div class="card-wrapper swiper-wrapper">
             {% for data in profile_data %}
-            <div class="card-length card swiper-slide" data-followed="{{ data.is_followed }}" data-profile="{% url 'profile' username=data.profile.user.username %}">
+            <div class="card-length card swiper-slide"
+                data-profile="{% url 'profile' username=data.profile.user.username %}">
                 <div class="image-content">
                     <span class="overlay"></span>
-                    {% if data.profile.profile_picture %}
                     <div class="card-image">
+                        {% if data.profile.profile_picture %}
                         <img src="{{ data.profile.profile_picture.url }}" alt="Profile Image" class="card-img">
-                    </div>
-                    {% else %}
-                    <div class="card-image">
+                        {% else %}
                         <img src="{% static 'profiles/images/no-profile.png' %}" alt="Profile Image" class="card-img">
+                        {% endif %}
                     </div>
-                    {% endif %}
                 </div>
 
                 <div class="card-content">
                     <h2 class="name">{{ data.profile.user.username }}</h2>
-                    {% if data.is_followed %}
-                        <!-- If followed, no button or message can be added here -->
-                    {% else %}
-                        <button class="button">View More</button>
-                    {% endif %}
+                    <button class="btn button profile-edit-btn" data-id="{{ data.profile.user.id }}"
+                        data-followed="{{ data.is_followed }}">
+                        {% if data.is_followed %}Unfollow{% else %}Follow{% endif %}
+                    </button>
                 </div>
             </div>
             {% endfor %}
@@ -47,3 +45,39 @@
 
 <!-- JavaScript -->
 <script src="{% static 'base/js/suggestion.js' %}"></script>
+
+<!-- AJAX Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const buttons = document.querySelectorAll('.profile-edit-btn');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
+                const userId = this.getAttribute('data-id');
+                const isFollowed = this.getAttribute('data-followed') === 'true';
+
+                // Determine the URL and action based on the current state
+                const actionUrl = isFollowed ? '{% url "unfollow_user" %}' : '{% url "follow_user" %}';
+
+                fetch(actionUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: `id=${userId}`
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.is_followed !== undefined) {
+                            button.textContent = data.is_followed ? 'Unfollow' : 'Follow';
+                            button.setAttribute('data-followed', data.is_followed);
+                        } else {
+                            console.error('Unexpected response:', data);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+</script>
