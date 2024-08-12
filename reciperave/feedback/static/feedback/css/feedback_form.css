@@ -24,7 +24,7 @@ header {
 label {
   display: block;
   margin-bottom: 8px;
-  color: #555555;
+  color: black;
 }
 
 textarea {
@@ -32,11 +32,17 @@ textarea {
   padding: 12px;
   margin-bottom: 16px;
   border: 1px solid #cccccc;
-  border-radius: 4px;
   box-sizing: border-box;
   resize: vertical;
   min-height: 100px;
   transition: border-color 0.3s;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
+  border-radius: 15px; /* Optional: Rounded corners */
+}
+
+textarea#feedback::placeholder {
+  color: black;
 }
 
 textarea:focus {

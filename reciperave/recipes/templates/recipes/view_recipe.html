@@ -12,14 +12,16 @@
   <link rel="stylesheet" href="{% static 'interactions/css/rate_comment.css' %}">
 </head>
 <body>
-  <header>
-    {% include 'base/three_dot.html' %}
-  </header>
   <main class="main-container">
     <article class="main-contents">
+      <div class="menu-recipe">
+        {% include 'base/three_dot.html' %}
+      </div>
       <!--Hero-->
       <section class="hero">
+       <div class="media">
         {% include 'base/video_image_slider.html' %}
+       </div>
 
         <h1>{{ recipe.recipe_name }}</h1>
         <p class="description">{{ recipe.description }}</p>

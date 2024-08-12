@@ -26,7 +26,6 @@
     display: block; /* Only active slide is shown */
 }
 
-.image img,
 .video video {
     width: 100%;
     height: 100%;

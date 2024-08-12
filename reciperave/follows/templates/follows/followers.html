@@ -15,29 +15,30 @@
         <section class="followers">
             <ul id="followers-list">
                 {% for follower in followers_list %}
-                <a href="{% url 'profile' username=follower.username %}" style="text-decoration: none;">
-                    <li>
-                        <table cellpadding="14" style="text-align: center; width: 100%; color: black">
+                <li>
+                    <a href="{% url 'profile' username=follower.username %}" style="text-decoration: none; color: black;">
+                        <table cellpadding="14" style="text-align: center; width: 100%;">
                             <tr>
                                 <td>
-                                    <img src="{{ follower.uid.profile.profile_picture.url}}"
-                                        alt="{{ follower.username }}"
-                                        style="height: 54px; width: 55px; max-height: 54px; max-width: 55px; border-radius: 50%; overflow: hidden;">
+                                    {% if follower.profile_picture %}
+                                    <img src="{{ follower.profile_picture }}" alt="{{ follower.username }}'s profile picture" style="height: 54px; width: 55px; max-height: 54px; max-width: 55px; border-radius: 50%; overflow: hidden;">
+                                    {% else %}
+                                    <img src="{% static 'profiles/images/no-profile.png' %}" alt="No profile picture" style="height: 54px; width: 55px; max-height: 54px; max-width: 55px; border-radius: 50%; overflow: hidden;">
+                                    {% endif %}
                                 </td>
                                 <td>
                                     <span>{{ follower.fname }} {{ follower.lname }}</span>
                                 </td>
                             </tr>
                         </table>
-                    </li>
-                </a>
+                    </a>
+                </li>
                 {% empty %}
                 <li>No followers found.</li>
                 {% endfor %}
             </ul>
         </section>
     </div>
-
 </body>
 
 </html>

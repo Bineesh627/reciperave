@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from profiles.models import Profile
 from follows.models import Follow
+from recipes.models import Recipe
 from django.contrib.auth.models import User
 from django.views.decorators.cache import cache_control
 from django.views.generic import TemplateView
@@ -17,9 +18,11 @@ def homes(request):
     # Get all profiles except the logged-in user's profile
     profiles = Profile.objects.exclude(user=current_user)
 
+    # Get all recipes, ordered by creation date (newest first)
+    recipes = Recipe.objects.all().order_by('-created_at')[:9]
+
     # Prepare data for the template
     profile_data = []
-
     for profile in profiles:
         # Check if the logged-in user is following the profile user
         is_followed = Follow.objects.filter(follower=current_user, following=profile.user).exists()
@@ -28,7 +31,13 @@ def homes(request):
             'is_followed': is_followed,
         })
 
-    return render(request, 'users/homes.html', {'profile_data': profile_data})
+    context = {
+        'profile_data': profile_data,
+        'recipes': recipes
+    }
+
+    return render(request, 'users/homes.html', context)
+
 
 @cache_control(no_store=True, must_revalidate=True, no_cache=True)
 def index(request):
@@ -40,6 +49,9 @@ def index(request):
 def signin_signup(request):
     if request.user.is_authenticated:
         return redirect('homes')
+
+    form = LoginForm()  # Initialize LoginForm
+    user_form = RegistrationForm()  # Initialize RegistrationForm
 
     if request.method == "POST":
         if 'register' in request.POST:
@@ -60,9 +72,6 @@ def signin_signup(request):
                     return redirect('homes')
                 else:
                     form.add_error(None, 'Invalid username or password')
-    else:
-        user_form = RegistrationForm()
-        form = LoginForm()
 
     return render(request, 'users/signin_signup.html', {'form': form, 'user_form': user_form})
 

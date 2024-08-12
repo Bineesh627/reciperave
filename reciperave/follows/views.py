@@ -4,20 +4,28 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Follow
+from profiles.models import Profile
 
 @login_required
 def followers(request, username):
     user = get_object_or_404(User, username=username)
+    
     # Fetch users who are following the `user`
     followers = User.objects.filter(following__following=user)
 
-    followers_list = [{
-        'uid': follower.id,
-        'fname': follower.first_name,
-        'lname': follower.last_name,
-        'username': follower.username,
-        'is_following_back': Follow.objects.filter(follower=user, following=follower).exists()
-    } for follower in followers]
+    followers_list = []
+    for follower in followers:
+        # Get the profile associated with the follower
+        profile = get_object_or_404(Profile, user=follower)
+        
+        followers_list.append({
+            'uid': follower.id,
+            'fname': follower.first_name,
+            'lname': follower.last_name,
+            'username': follower.username,
+            'profile_picture': profile.profile_picture.url if profile.profile_picture else None,  # Adjust to your profile image field name
+            'is_following_back': Follow.objects.filter(follower=user, following=follower).exists()
+        })
 
     return render(request, 'follows/followers.html', {
         'followers_list': followers_list,
@@ -30,39 +38,26 @@ def followings(request, username):
     # Fetch users whom the `user` is following using the related manager
     followings = user.following.all()
 
-    followings_list = [{
-        'uid': following.following.pk,  # Access the 'following' user
-        'fname': following.following.first_name,  # Access from the 'following' user
-        'lname': following.following.last_name,  # Access from the 'following' user
-        'username': following.following.username,  # Access from the 'following' user
-
-        'is_following': Follow.objects.filter(follower=request.user, following=following.following).exists()
-    } for following in followings]
-
-    return render(request, 'follows/following.html', {
-        'followings_list': followings_list,
-        'profile_user': user
-    })
-
-@login_required
-def following(request, username):
-    user = get_object_or_404(User, username=username)
-    # Fetch users whom the `user` is following using the related manager
-    followings = user.following.all()
-
-    followings_list = [{
-        'uid': following.following.pk,  # Corrected to access the 'following' user
-        'fname': following.following.first_name,  # Access from the 'following' user
-        'lname': following.following.last_name,  # Access from the 'following' user
-        'username': following.following.username,  # Access from the 'following' user
-        'profile_picture': following.following.profile_picture.url if following.following.profile_picture else "{% static 'profiles/images/no-profile.png' %}",  # Include profile image URL
-        'is_following': Follow.objects.filter(follower=request.user, following=following.following).exists()
-    } for following in followings]
+    followings_list = []
+    for following in followings:
+        following_user = following.following
+        profile = get_object_or_404(Profile, user=following_user)
+        
+        followings_list.append({
+            'uid': following_user.pk,
+            'fname': following_user.first_name,
+            'lname': following_user.last_name,
+            'username': following_user.username,
+            'profile_picture': profile.profile_picture.url if profile.profile_picture else None,
+            'is_following': Follow.objects.filter(follower=request.user, following=following_user).exists()
+        })
 
     return render(request, 'follows/following.html', {
         'followings_list': followings_list,
         'profile_user': user
     })
+
+
 
 @login_required
 def follow_user(request):

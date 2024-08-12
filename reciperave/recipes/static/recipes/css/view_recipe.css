@@ -1,60 +1,279 @@
-.slider-container {
-    display: grid;
-    place-items: center;
-    width: 100%; /* Ensure it takes full width */
-    max-width: 800px; /* Adjust as needed */
-    margin: 0 auto; /* Center the container */
+/* @font-face {
+       font-family: 'Young Serif';
+       src: url('../assets/fonts/young-serif/YoungSerif-Regular.ttf');
+   }
+   
+   @font-face {
+       font-family: 'Outfit';
+       src: url('../assets/fonts/outfit/Outfit-VariableFont_wght.ttf');
+   } */
+
+* {
+    padding: 0;
 }
 
-.slider {
-    position: relative;
-    width: 100%;
-    height: auto; /* Allow height to adjust based on content */
-    overflow: hidden;
+body {
+    background-image: url("/static/users/images/slider-03.jpg");
+}
+html {
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
 }
 
-.slide {
-    position: absolute;
-    top: 0;
-    left: 0;
+h1,
+h2,
+p,
+div,
+h3,
+section,
+article {
+    padding: 0;
+    margin: 0;
+
+}
+
+.main-contents {
+    width: 60.25rem;
+    border-radius: 1.875rem;
+    padding: 2.5rem;
+    background: hsl(0, 0%, 100%);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.main-container {
+    display: flex;
     width: 100%;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.image {
+    width: 100%;
+    height: 18.75rem;
+}
+
+.image,
+.image img {
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    /* Horizontally center */
+    align-items: center;
+}
+
+.image img {
+    width: 50%;
     height: 100%;
-    display: none; /* Initially hidden */
+    object-fit: fill;
 }
 
-.slide.active {
-    display: block; /* Only active slide is shown */
+h1 {
+    font-family: "Young serif";
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: hsl(24, 5%, 18%);
 }
 
-.image img,
-.video video {
+.hero .description {
+    font-size: 1.01rem;
+    line-height: 1.5rem;
+    font-family: "Outfit", sans-serif;
+    font-weight: 500;
+    color: hsl(30, 10%, 34%);
+
+}
+
+.prep-time,
+.ingredients,
+.instructions,
+.nutrition {
+    margin-top: 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.prep-time {
+    padding: 1rem 1rem;
+    border-radius: 1rem;
+    background: hsl(330, 100%, 98%);
+}
+
+.prep-time h3 {
+    font-size: 1.25rem;
+    font-family: "Outfit", sans-serif;
+    color: hsl(332, 51%, 32%);
+    font-weight: 800;
+}
+
+.list,
+.numbers {
+    color: hsl(30, 10%, 34%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+.prep-time .list li {
+    font-weight: 500;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.heading2 {
+    letter-spacing: 0.06rem;
+    color: hsl(14, 45%, 36%);
+    font-family: "Young serif";
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.list li,
+.numbers li {
+    font-family: "Outfit", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: hsl(30, 10%, 34%);
+    line-height: 1.5rem;
+    align-items: center;
+
+}
+
+hr {
+    width: 33rem;
+    margin-top: 1rem;
+    border: 1.5px solid #d9d9d9;
+    margin-left: 1.5rem;
+}
+
+.numbers li {
+    list-style-type: n;
+}
+
+li {
+    padding-left: 1rem;
+}
+
+.numbers li::marker {
+    font-size: 1rem;
+    font-weight: bolder;
+}
+
+.nutrition .info {
+    font-family: "Outfit", sans-serif;
+    font-weight: 500;
+    color: hsl(30, 10%, 34%);
+}
+
+table {
+    border-collapse: collapse;
     width: 100%;
-    height: 100%;
-    object-fit: contain; /* Adjust to cover or contain as needed */
 }
 
-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 1;
+td {
+    padding: 0.875rem;
+    justify-content: center;
+    text-align: left;
+    padding-left: 30px;
+    font-size: 1rem;
+    font-family: "Outfit", sans-serif;
 }
 
-.prev {
-    left: 10px;
+.nutrients {
+    color: hsl(30, 10%, 34%);
+    font-weight: 600;
 }
 
-.next {
-    right: 10px;
+.quantity {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: hsl(14, 45%, 36%);
 }
 
-.media-error {
-    color: #333;
-    text-align: center;
-    padding: 20px;
+tr {
+    border-bottom: 2px solid #d9d9d9;
+}
+
+.no-border-bottom {
+    border-bottom: none;
+}
+
+@media screen and (max-width: 500px) {
+    .main-container {
+        width: 100%;
+        display: flex;
+        padding: 0;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+    }
+
+    .main-contents {
+        width: 35.438rem;
+        background: hsl(0, 0%, 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        border-radius: 0;
+    }
+
+    .hero {
+        width: 23.438rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .image {
+        width: 100%;
+        height: 10.625rem;
+        border-radius: 0rem;
+    }
+
+    .image img {
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+        border-radius: 0rem;
+    }
+
+    hr {
+        width: 21.438rem;
+    }
+
+    .prep-time {
+        width: 20.438rem;
+        padding: 1rem;
+    }
+
+    h1,
+    .description,
+    .ingredients,
+    .nutrition,
+    .instructions,
+    .prep-time {
+        padding: 0 1.3rem;
+    }
+
+    ul {
+        margin-left: 1.5rem;
+    }
 }

@@ -44,11 +44,11 @@
                 <form id="LoginForm" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="input-box">
-                        <input type="text" class="input-field" id="{{ form.username.id_for_label }}" name="{{ form.username.name }}" placeholder="username">
+                        <input type="text" class="input-field" id="{{ form.username.id_for_label }}" name="{{ form.username.name }}" placeholder="username" required>
                         <i class="bx bx-user"></i>
                     </div>
                     <div class="input-box">
-                        <input type="password" class="input-field" id="{{ form.password.id_for_label }}" name="{{form.password.name}}" placeholder="Password">
+                        <input type="password" class="input-field" id="{{ form.password.id_for_label }}" name="{{form.password.name}}" placeholder="Password" required>
                         <i class="bx bx-lock-alt"></i>
                     </div>
                     <div class="input-box">
@@ -77,28 +77,28 @@
                         {% csrf_token %}
                         <div class="two-forms">
                         <div class="input-box">
-                            <input type="text" class="input-field" placeholder="Firstname" id="{{ user_form.first_name.id_for_label }}" name="{{user_form.first_name.name}}">
+                            <input type="text" class="input-field" placeholder="Firstname" id="{{ user_form.first_name.id_for_label }}" name="{{user_form.first_name.name}}" required>
                             <i class="bx bx-user"></i>
                         </div>
                         <div class="input-box">
-                            <input type="text" class="input-field" placeholder="Lastname" id="{{ user_form.last_name.id_for_label }}" name="{{user_form.last_name.name}}">
+                            <input type="text" class="input-field" placeholder="Lastname" id="{{ user_form.last_name.id_for_label }}" name="{{user_form.last_name.name}}" required>
                             <i class="bx bx-user"></i>
                         </div>
                     </div>
                     <div class="input-box">
-                        <input type="text" class="input-field" placeholder="Username" id="{{ user_form.username.id_for_label }}" name="{{user_form.username.name}}">
+                        <input type="text" class="input-field" placeholder="Username" id="{{ user_form.username.id_for_label }}" name="{{user_form.username.name}}" required>
                         <i class="bx bx-user"></i>
                     </div>
                     <div class="input-box">
-                        <input type="email" class="input-field" placeholder="Email" id="{{ user_form.email.id_for_label }}" name="{{user_form.email.name}}">
+                        <input type="email" class="input-field" placeholder="Email" id="{{ user_form.email.id_for_label }}" name="{{user_form.email.name}}" required>
                         <i class="bx bx-envelope"></i>
                     </div>
                     <div class="input-box">
-                        <input type="password" class="input-field" placeholder="Password" id="{{ user_form.password1.id_for_label }}" name="{{user_form.password1.name}}">
+                        <input type="password" class="input-field" placeholder="Password" id="{{ user_form.password1.id_for_label }}" name="{{user_form.password1.name}}" required>
                         <i class="bx bx-lock-alt"></i>
                     </div>
                     <div class="input-box">
-                        <input type="password" class="input-field" placeholder="Confirm Password" id="{{ user_form.password2.id_for_label }}" name="{{user_form.password2.name}}">
+                        <input type="password" class="input-field" placeholder="Confirm Password" id="{{ user_form.password2.id_for_label }}" name="{{user_form.password2.name}}" required>
                         <i class="bx bx-lock-alt"></i>
                     </div>
                     <div class="input-box">

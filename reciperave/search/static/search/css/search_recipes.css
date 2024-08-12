@@ -28,10 +28,21 @@ main {
     flex: 1;
     padding: 8px;
     margin-right: 10px;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
+    border-radius: 15px; /* Optional: Rounded corners */
 }
+
+input#searchInput::placeholder {
+    color: black;
+}
+
 
 #filterSelect {
     padding: 8px;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
+    border-radius: 15px; /* Optional: Rounded corners */
 }
 
 .card-container {
@@ -45,6 +56,10 @@ main {
     border-radius: 5px;
     overflow: hidden;
     width: 323px; /* Adjust width as needed */
+    overflow: hidden;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
+    border-radius: 15px; /* Optional: Rounded corners */
 }
 
 .video-container img, .video-container video {
@@ -54,6 +69,7 @@ main {
 
 .card-content {
     padding: 10px;
+    overflow: hidden;
 }
 
 .btn {

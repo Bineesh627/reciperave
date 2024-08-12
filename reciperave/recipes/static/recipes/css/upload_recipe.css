@@ -7,7 +7,9 @@
     margin: auto;
     padding: 1em;
     border: 1px solid #ccc;
-    border-radius: 1em;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
+    border-radius: 15px; /* Optional: Rounded corners */
 }
 
 header {
@@ -25,7 +27,7 @@ div.form-group {
 label {
     display: block;
     margin-bottom: .5em;
-    color: #333333;
+    color: black;
 }
 
 input[type="text"],
@@ -35,7 +37,9 @@ textarea {
     padding: .5em;
     font-size: 1em;
     border: 1px solid #ccc;
-    border-radius: .25em;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
+    border-radius: 15px; /* Optional: Rounded corners */
 }
 
 input[type="file"] {

@@ -15,20 +15,24 @@
         <section class="followings">
             <ul id="followings-list">
                 {% for following in followings_list %}
-                <a href="{% url 'profile' username=following.username %}" style="text-decoration: none;">
-                    <li>
-                        <table cellpadding="14" style="text-align: center; width: 100%; color: black">
+                <li>
+                    <a href="{% url 'profile' username=following.username %}" style="text-decoration: none; color: black;">
+                        <table cellpadding="14" style="text-align: center; width: 100%;">
                             <tr>
                                 <td>
-                                    <img src="{{ following.profile_picture.url }}" style="height: 50px; width: 50px; border-radius: 50%;">
+                                    {% if following.profile_picture %}
+                                    <img src="{{ following.profile_picture }}" alt="{{ following.username }}'s profile picture" style="height: 50px; width: 50px; border-radius: 50%;">
+                                    {% else %}
+                                    <img src="{% static 'profiles/images/no-profile.png' %}" alt="No profile picture" style="height: 50px; width: 50px; border-radius: 50%;">
+                                    {% endif %}
                                 </td>
                                 <td>
                                     <span>{{ following.fname }} {{ following.lname }}</span>
                                 </td>
                             </tr>
                         </table>
-                    </li>
-                </a>
+                    </a>
+                </li>
                 {% empty %}
                 <li>Not following anyone yet.</li>
                 {% endfor %}

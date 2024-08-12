@@ -95,3 +95,61 @@ def profile(request, username):
     }
     
     return render(request, 'profiles/profile.html', context)
+
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.http import JsonResponse
+
+@login_required
+def settings(request):
+    if request.method == 'POST':
+        if 'profile_update' in request.POST:
+            username = request.POST.get('username')
+            bio = request.POST.get('bio')
+            profile_picture = request.FILES.get('profile_picture')
+            
+            # Update profile information
+            profile, created = Profile.objects.get_or_create(user=request.user)
+            if username:
+                profile.user.username = username
+            if bio:
+                profile.bio = bio
+            if profile_picture:
+                profile.profile_picture = profile_picture
+            profile.save()
+            
+            return JsonResponse({'status': 'success', 'message': 'Profile updated successfully'})
+        
+        elif 'email_update' in request.POST:
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            email = request.POST.get('email')
+
+            request.user.first_name = first_name
+            request.user.last_name = last_name
+            request.user.email = email
+            request.user.save()
+            
+            return JsonResponse({'status': 'success', 'message': 'Email updated successfully'})
+        
+        elif 'password_change' in request.POST:
+            password_form = PasswordChangeForm(user=request.user, data=request.POST)
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)  # Important to keep user logged in
+                return JsonResponse({'status': 'success', 'message': 'Password changed successfully'})
+            else:
+                return JsonResponse({'status': 'error', 'message': 'Password change failed'})
+    
+    else:
+        profile, created = Profile.objects.get_or_create(user=request.user)
+        profile_form_data = {
+            'username': request.user.username,
+            'bio': profile.bio,
+        }
+        password_form = PasswordChangeForm(user=request.user)
+    
+    return render(request, 'profiles/settings.html', {
+        'profile_form_data': profile_form_data,
+        'password_form': password_form
+    })

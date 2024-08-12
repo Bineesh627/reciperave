@@ -2,8 +2,20 @@
 
 {% block title %}Home Page{% endblock %}
 
+{% block css_static %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'base/css/cards.css' %}">
+{% endblock %}
+
 {% block content %}
 
 {% include 'base/suggestion.html' %}
-<p>Hello welcome to our page</p>
+
+<div class="card-container">
+    {% for recipe in recipes %}
+    {% include 'base/cards.html' %}
+    {% empty %}
+    <p>No recipes found.</p>
+    {% endfor %}
+</div>
 {% endblock %}

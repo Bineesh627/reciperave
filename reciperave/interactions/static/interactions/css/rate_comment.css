@@ -10,7 +10,7 @@
 }
 
 .wrapper {
-    background: var(--white);
+    overflow: hidden;
     padding: 2rem;
     max-width: 576px;
     width: 100%;

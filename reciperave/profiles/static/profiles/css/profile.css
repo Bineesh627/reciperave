@@ -37,6 +37,10 @@ img {
 
 .profile {
     padding: 5rem 0;
+    overflow: hidden;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
+    border-radius: 15px; /* Optional: Rounded corners */
 }
 
 .profile::after {

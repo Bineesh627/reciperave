@@ -1,4 +1,4 @@
-<div class="card">
+<div class="recipe-card">
     <div class="video-container">
           {% if recipe.video %}
           <video  width="323px" height="188px" class="recipe-video" controls>
@@ -13,7 +13,7 @@
           <p style="text-align: center; padding: 80px;">No media available</p>
           {% endif %}
         </div>
-    <div class="card-content">
+    <div class="card-recipe-content">
         <h3>{{ recipe.recipe_name }}</h3>
         <p>Dish Type: {{ recipe.dishType }}</p>
         <p>Created at: {{ recipe.created_at }}</</p>
