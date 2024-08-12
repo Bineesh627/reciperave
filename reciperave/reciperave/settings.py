@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_URL = '/login/'  # URL where users are redirected if they are not authenticated
+LOGIN_URL = '/signin_signup/'  # URL where users are redirected if they are not authenticated
 LOGOUT_URL = '/logout/'  # URL where users are redirected after logging out
 LOGIN_REDIRECT_URL = '/'  # URL to redirect to after successful login
 LOGOUT_REDIRECT_URL = '/'  # URL to redirect to after logging out
@@ -92,23 +92,23 @@ WSGI_APPLICATION = 'reciperave.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'reciperave',
-#         'USER': 'root',
-#         'PASSWORD':'',
-#         'HOST':'localhost',
-#         'PORT':'3306'
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'reciperave',
+        'USER': 'root',
+        'PASSWORD':'',
+        'HOST':'localhost',
+        'PORT':'3306'
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation

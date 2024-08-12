@@ -6,8 +6,6 @@ class RecipeForm(forms.ModelForm):
         model = Recipe
         fields = ['recipe_name', 'total_time', 'dishType', 'description', 'photo', 'video', 'instruction']
     
-    # You can override the __init__ method if you need to set choices dynamically
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['dishType'].widget = forms.Select(choices=[(cat.dishtype, cat.dishtype) for cat in Category.objects.all()])
-

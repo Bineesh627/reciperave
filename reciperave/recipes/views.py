@@ -50,25 +50,13 @@ def edit_recipe_action(request, recipe_id):
 
 @login_required
 def view_recipe(request, recipe_id):
-    # Fetch the specific recipe by its ID
     recipe = get_object_or_404(Recipe, id=recipe_id)
-
     is_author = request.user == recipe.user
-
     user = recipe.user
-
     profile = get_object_or_404(Profile, user=user)
-
-    # Check if the recipe is bookmarked by the user
     is_bookmarked = Bookmark.objects.filter(recipe=recipe, user=request.user).exists()
-    
-    # Fetch all ratings for the recipe
     ratings = Rating.objects.filter(recipe=recipe)
-    
-    # Fetch all comments for the recipe
     comments = Comments.objects.filter(recipe=recipe)
-    
-    # Fetch current user's rating and comments if they exist
     current_rating = Rating.objects.filter(recipe=recipe, user=request.user).first()
     user_comments = Comments.objects.filter(recipe=recipe, user=request.user)
 
@@ -82,7 +70,7 @@ def view_recipe(request, recipe_id):
         'is_author': is_author,
         'profile': profile,
     }
-    
+
     return render(request, 'recipes/view_recipe.html', context)
 
 @login_required

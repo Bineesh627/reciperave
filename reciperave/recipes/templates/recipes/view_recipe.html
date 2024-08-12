@@ -19,24 +19,7 @@
     <article class="main-contents">
       <!--Hero-->
       <section class="hero">
-        <div class="media">
-          {% if recipe.video %}
-          <div class="image">
-            <video width="550px" height="350px" controls>
-            <source src="{{ recipe.video.url }}" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          </div>
-          {% elif recipe.photo %}
-          <div class="image">
-            <img src="{{ recipe.photo.url }}" alt="{{ recipe.recipe_name }}">
-          </div>
-          {% else %}
-          <div class="image">
-            <p class="image-video-error">No media available</p>
-          </div>
-          {% endif %}
-        </div>
+        {% include 'base/video_image_slider.html' %}
 
         <h1>{{ recipe.recipe_name }}</h1>
         <p class="description">{{ recipe.description }}</p>

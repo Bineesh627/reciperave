@@ -9,14 +9,14 @@
     --hover-clr: #f1e8fd;
 }
 
-body.dark-mode {
+/* body.dark-mode {
     --primary-clr: #7522e6;
     --bg-clr: #1e1e1e;
     --white-bg: #23262b;
     --dark-text-clr: #fff;
     --light-text-clr: #fff;
     --hover-clr: #31313f;
-}
+} */
 
 * {
     margin: 0;

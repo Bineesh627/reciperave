@@ -1,0 +1,65 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'base/css/video_image_slider.css' %}">
+
+<div class="slider-container">
+    <div class="slider">
+        {% if recipe.photo and recipe.video %}
+        <!-- Both image and video are available -->
+        <div class="slide active">
+            <div class="image">
+                <img src="{{ recipe.photo.url }}" alt="{{ recipe.recipe_name }}">
+            </div>
+        </div>
+        <div class="slide">
+            <div class="video">
+                <video controls>
+                    <source src="{{ recipe.video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+        {% elif recipe.photo %}
+        <!-- Only image is available -->
+        <div class="slide active">
+            <div class="image">
+                <img src="{{ recipe.photo.url }}" alt="{{ recipe.recipe_name }}">
+            </div>
+        </div>
+        <div class="slide">
+            <div class="video">
+                <p class="media-error">No video available</p>
+            </div>
+        </div>
+        {% elif recipe.video %}
+        <!-- Only video is available -->
+        <div class="slide active">
+            <div class="image">
+                <p class="media-error">No image available</p>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="video">
+                <video controls>
+                    <source src="{{ recipe.video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+        {% else %}
+        <!-- Neither image nor video is available -->
+        <div class="slide active">
+            <div class="image">
+                <p class="media-error">No media available</p>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="video">
+                <p class="media-error">No media available</p>
+            </div>
+        </div>
+        {% endif %}
+        <button class="prev" onclick="prevSlide()">&#10094;</button>
+        <button class="next" onclick="nextSlide()">&#10095;</button>
+    </div>
+</div>
+<script src="{% static 'base/js/video_image_slider.js' %}"></script>
