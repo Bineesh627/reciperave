@@ -1,0 +1,12 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'base/css/back_button.css' %}">
+
+<div class="button-margin">
+    <button class="back-button" onclick="goBack()">Go Back</button>
+</div>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>

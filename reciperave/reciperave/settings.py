@@ -67,6 +67,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+SESSION_COOKIE_NAME = 'user_session_id'
+
+SESSION_COOKIE_AGE = 1209600
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 ROOT_URLCONF = 'reciperave.urls'
 
 TEMPLATES = [
