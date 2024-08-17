@@ -6,6 +6,10 @@ body {
   background: linear-gradient(90deg, #2f3640 23%, #181b20 100%);
 }
 
+a {
+  text-decoration: none;
+}
+
 .moon {
   background: linear-gradient(90deg, #d0d0d0 48%, #919191 100%);
   position: absolute;

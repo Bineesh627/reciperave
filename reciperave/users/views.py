@@ -12,9 +12,9 @@ from django.views.generic import TemplateView
 
 def custom_404(request, exception=None):
     if request.user.is_authenticated:
-        template_name = '404_logged_in.html'
+        template_name = 'base/404_logged_in.html'
     else:
-        template_name = '404_not_logged_in.html'
+        template_name = 'base/404_not_logged_in.html'
     return render(request, template_name, status=404)
 
 @login_required
