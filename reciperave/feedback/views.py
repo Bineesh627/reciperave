@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.contrib import messages
 from .models import Feedback
 from django.contrib.auth.decorators import login_required
 
@@ -18,8 +18,10 @@ def feedbackForm(request):
         if message:
             user = request.user
             Feedback.objects.create(user=user, message=message)
+            messages.success(request, 'Thank you for your feedback!')
             return redirect('feedback_success')  # Redirect to success page
         else:
-            return HttpResponse("<script>alert('Feedback cannot be empty');window.location='/feedback/';</script>")
+            messages.error(request, 'Feedback cannot be empty.')
+            return redirect('feedback')  # Redirect back to feedback form
     else:
         return redirect('feedback')  # Redirect to feedback form if not POST

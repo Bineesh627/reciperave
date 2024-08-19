@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>404</title>
   {% load static %}
+
   <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'base/css/404.css' %}">
 
@@ -26,7 +27,11 @@
   <div class="error__subtitle">Hmmm...</div>
   <div class="error__description">It looks like one of the  developers fell asleep</div>
   <br>
+  {% if request.user.is_authenticated %}
+  <a href="{% url 'homes' %}" class="error__button error__button--active">HOME</a>
+  {% else %}
   <a href="{% url 'index' %}" class="error__button error__button--active">Index</a>
+  {% endif %}
   <!-- <button class="error__button error__button--active">LOGIN</button> -->
 </div>
 

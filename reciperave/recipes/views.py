@@ -4,6 +4,7 @@ from .forms import RecipeForm
 from .models import Recipe, Category
 from bookmarks.models import Bookmark
 from profiles.models import Profile
+from django.contrib import messages
 from interactions.models import Rating, Comments
 from django.contrib.auth.decorators import login_required
 
@@ -20,9 +21,19 @@ def upload_recipe_action(request):
             recipe = form.save(commit=False)
             recipe.user = request.user  # Ensure the user is set correctly
             recipe.save()
-            return redirect('homes')
+
+            # Success message
+            messages.success(request, 'Your recipe has been uploaded successfully!')
+            return redirect('upload_recipe')
+        else:
+            # Error message
+            messages.error(request, 'There was an error in your recipe submission. Please check the form and try again.')
     else:
         form = RecipeForm()
+
+        # Info message to guide the user
+        messages.info(request, 'Please fill out the form to upload a new recipe.')
+
     return render(request, 'recipes/upload_recipe.html', {'form': form})
 
 @login_required

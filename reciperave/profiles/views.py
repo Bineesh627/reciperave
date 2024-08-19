@@ -4,8 +4,9 @@ from django.contrib.auth.models import User
 from .models import Profile
 from recipes.models import Recipe
 from follows.models import Follow
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
 
 @login_required
 def edit_profile(request):
@@ -19,18 +20,28 @@ def edit_profile(request):
 
         # Validate username uniqueness
         if User.objects.filter(username=username).exclude(id=user.id).exists():
-            # Handle the case where the username is already taken
-            return render(request, 'profiles/edit_profile.html', {'error': 'Username already taken', 'user': user, 'profile': profile})
+            messages.error(request, 'Username already taken.')
+        else:
+            user.username = username
+            user.save()
 
-        user.username = username
-        user.save()
+            profile.bio = bio
+            if profile_picture:
+                profile.profile_picture = profile_picture
+            profile.save()
 
-        profile.bio = bio
-        if profile_picture:
-            profile.profile_picture = profile_picture
-        profile.save()
+            messages.success(request, 'Profile updated successfully.')
+        
+        # Display warning if bio is empty
+        if not bio:
+            messages.warning(request, 'Your bio is currently empty.')
 
-        return redirect('homes')
+        # To re-render the same page with messages
+        context = {
+            'user': user,
+            'profile': profile,
+        }
+        return render(request, 'profiles/edit_profile.html', context)
 
     context = {
         'user': user,
@@ -96,60 +107,58 @@ def profile(request, username):
     
     return render(request, 'profiles/profile.html', context)
 
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
-from django.http import JsonResponse
-
 @login_required
 def settings(request):
     if request.method == 'POST':
-        if 'profile_update' in request.POST:
-            username = request.POST.get('username')
-            bio = request.POST.get('bio')
-            profile_picture = request.FILES.get('profile_picture')
-            
-            # Update profile information
-            profile, created = Profile.objects.get_or_create(user=request.user)
-            if username:
-                profile.user.username = username
-            if bio:
-                profile.bio = bio
-            if profile_picture:
-                profile.profile_picture = profile_picture
-            profile.save()
-            
-            return JsonResponse({'status': 'success', 'message': 'Profile updated successfully'})
-        
-        elif 'email_update' in request.POST:
-            first_name = request.POST.get('first_name')
-            last_name = request.POST.get('last_name')
+        if 'email_update' in request.POST:
+            fname = request.POST.get('first_name')
+            lname = request.POST.get('last_name')
             email = request.POST.get('email')
-
-            request.user.first_name = first_name
-            request.user.last_name = last_name
-            request.user.email = email
-            request.user.save()
             
-            return JsonResponse({'status': 'success', 'message': 'Email updated successfully'})
-        
+            if not fname or not lname:
+                messages.error(request, 'First name and last name cannot be empty.')
+            elif not fname.isalpha() or not lname.isalpha():
+                messages.error(request, 'First name and last name must contain only alphabetic characters.')
+            elif not email or not email.endswith('@gmail.com'):
+                messages.error(request, 'Invalid email format.')
+            else:
+                # Check if the name has changed
+                if fname != request.user.first_name or lname != request.user.last_name:
+                    request.user.first_name = fname
+                    request.user.last_name = lname
+                    request.user.save()
+                    messages.success(request, 'First name and last name updated successfully.')
+                else:
+                    messages.info(request, 'No changes detected in name fields.')
+                
+                # Check if the email has changed
+                if email != request.user.email:
+                    request.user.email = email
+                    request.user.save()
+                    messages.success(request, 'Email updated successfully.')
+                else:
+                    messages.info(request, 'No changes detected in email field.')
+
         elif 'password_change' in request.POST:
             password_form = PasswordChangeForm(user=request.user, data=request.POST)
             if password_form.is_valid():
                 user = password_form.save()
-                update_session_auth_hash(request, user)  # Important to keep user logged in
-                return JsonResponse({'status': 'success', 'message': 'Password changed successfully'})
+                update_session_auth_hash(request, user)  # Keeps the user logged in
+                messages.success(request, 'Password changed successfully.')
             else:
-                return JsonResponse({'status': 'error', 'message': 'Password change failed'})
-    
-    else:
-        profile, created = Profile.objects.get_or_create(user=request.user)
-        profile_form_data = {
+                messages.error(request, 'Password change failed.')
+
+        # After processing the form, redirect back to the settings page
+        return redirect('settings')  # Assuming 'settings' is the name of the URL for this view
+
+    # GET request handling - form initialization
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    password_form = PasswordChangeForm(user=request.user)
+
+    return render(request, 'profiles/settings.html', {
+        'profile_form_data': {
             'username': request.user.username,
             'bio': profile.bio,
-        }
-        password_form = PasswordChangeForm(user=request.user)
-    
-    return render(request, 'profiles/settings.html', {
-        'profile_form_data': profile_form_data,
-        'password_form': password_form
+        },
+        'password_form': password_form,
     })

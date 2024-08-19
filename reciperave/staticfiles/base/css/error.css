@@ -1,0 +1,172 @@
+.alert-handler {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 400px;
+    text-align: center;
+    max-width: fit-content;
+    z-index: 1000;
+  }
+  
+  .alert {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 10px;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    transform: translateX(100%);
+    animation: moveleft 0.5s linear forwards;
+    transition: opacity 0.5s ease; /* Smooth fade-out transition */
+    opacity: 1; /* Ensure alerts are visible at start */
+  }
+  
+  /* Slide-in animation */
+  @keyframes moveleft {
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  /* Progress bar animation */
+  .alert-success::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background: green;
+    animation: anim 5s linear forwards;
+  }
+
+  .alert-error::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background: red;
+    animation: anim 5s linear forwards;
+  }
+
+  .alert-warning::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background: yellow;
+    animation: anim 5s linear forwards;
+  }
+  .alert-info::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background: rgb(40, 145, 238);
+    animation: anim 5s linear forwards;
+  }
+  
+  @keyframes anim {
+    100% {
+      width: 0;
+    }
+  }
+  
+  /* General styling for alert icons */
+  .alert::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .alert-success::before {
+    content: '✔'; /* Unicode checkmark */
+    background-color: #28a745; /* Green background */
+  }
+  
+  .alert-error::before {
+    content: '✖'; /* Unicode X mark */
+    background-color: #dc3545; /* Red background */
+  }
+  
+  .alert-warning::before {
+    content: '⚠'; /* Unicode exclamation mark */
+    background-color: #ffc107; /* Yellow background */
+  }
+  
+  .alert-info::before {
+    content: 'ℹ'; /* Unicode info symbol */
+    background-color: #17a2b8; /* Blue background */
+  }
+  
+  .alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    padding-left: 60px; /* Offset for icon */
+  }
+  
+  .alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    padding-left: 60px; /* Offset for icon */
+  }
+  
+  .alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding-left: 60px; /* Offset for icon */
+  }
+  
+  .alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    padding-left: 60px; /* Offset for icon */
+  }
+  
+.alert-success::before {
+    content: '\f00c'; /* Font Awesome checkmark icon */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    background-color: #28a745; /* Green background */
+  }
+  
+  .alert-error::before {
+    content: '\f00d'; /* Font Awesome X icon */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    background-color: #dc3545; /* Red background */
+  }
+  
+  .alert-warning::before {
+    content: '\f071'; /* Font Awesome exclamation icon */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    background-color: #ffc107; /* Yellow background */
+  }
+  
+  .alert-info::before {
+    content: '\f129'; /* Font Awesome info icon */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    background-color: #17a2b8; /* Blue background */
+  }

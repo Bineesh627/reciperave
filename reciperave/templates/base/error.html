@@ -1,0 +1,26 @@
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="{% static 'base/css/error.css' %}">
+<div class="alert-handler">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}"> {{ message }}</div>
+    {% endfor %}
+</div>
+
+<script>
+    // Function to automatically remove alert after 5 seconds
+    function removeAlert() {
+        setTimeout(function () {
+            var alerts = document.querySelectorAll('.alert'); // Select all alerts
+            alerts.forEach(function (alert) {
+                alert.style.opacity = '0'; // Start fade out transition
+                setTimeout(function () {
+                    alert.remove(); // Remove alert from the DOM after fade out
+                }, 500); // Match with CSS transition duration (500ms)
+            });
+        }, 5000); // 5 seconds delay
+    }
+
+    // Call removeAlert function on page load
+    window.onload = removeAlert;
+</script>

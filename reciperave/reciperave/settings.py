@@ -28,7 +28,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-LOGIN_URL = '/signin_signup/'  # URL where users are redirected if they are not authenticated
+LOGIN_URL = '/login/'  # URL where users are redirected if they are not authenticated
 LOGOUT_URL = '/logout/'  # URL where users are redirected after logging out
 LOGIN_REDIRECT_URL = '/'  # URL to redirect to after successful login
 LOGOUT_REDIRECT_URL = '/'  # URL to redirect to after logging out

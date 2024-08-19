@@ -18,11 +18,13 @@
     <header>
         {% include 'base/back_button.html' %}
     </header>
+
+    {% include 'base/error.html' %}
+
     <div class="container p-0">
         <h1 class="h3 mb-3" style="color: #fff;">Settings</h1>
         <div class="row">
             <div class="col-md-5 col-xl-4">
-
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title mb-0">Profile Settings</h5>
@@ -44,50 +46,6 @@
             <div class="col-md-7 col-xl-8">
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="account" role="tabpanel">
-
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title mb-0">Public info</h5>
-                            </div>
-                            <div class="card-body">
-                                <form method="post" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label for="inputUsername">Username</label>
-                                                <input type="text" class="form-control" id="inputUsername"
-                                                    name="username" placeholder="Username"
-                                                    value="{{ profile_form_data.username }}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputUsername">Bio</label>
-                                                <textarea rows="2" class="form-control" id="inputBio" name="bio"
-                                                    placeholder="Tell something about yourself">{{ profile_form_data.bio }}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="text-center">
-                                                <img alt="Andrew Jones"
-                                                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                    class="rounded-circle img-responsive mt-2" width="128" height="128">
-                                                <div class="mt-2">
-                                                    <span class="btn btn-primary"><i class="fa fa-upload"></i></span>
-                                                </div>
-                                                <small>For best results, use an image at least 128px by 128px in .jpg
-                                                    format</small>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <button type="submit" name="profile_update" class="btn btn-primary">Save
-                                        changes</button>
-                                </form>
-                                <div id="profileUpdateMessage" class="mt-2"></div>
-
-                            </div>
-                        </div>
-
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title mb-0">Private info</h5>
@@ -117,11 +75,9 @@
                                     <button type="submit" name="email_update" class="btn btn-primary">Save
                                         changes</button>
                                 </form>
-                                <div id="emailUpdateMessage" class="mt-2"></div>
 
                             </div>
                         </div>
-
                     </div>
                     <div class="tab-pane fade" id="password" role="tabpanel">
                         <div class="card">
@@ -144,10 +100,9 @@
                                         <input type="password" class="form-control" id="inputPasswordNew2"
                                             name="confirm_password" autocomplete="new-password">
                                     </div>
-                                    <button type="button" id="passwordChangeButton" class="btn btn-primary">Save
-                                        changes</button>
+                                    <button type="submit" id="passwordChangeButton" class="btn btn-primary">change
+                                        password</button>
                                 </form>
-                                <div id="passwordChangeMessage" class="mt-2"></div>
 
                             </div>
                         </div>
@@ -157,83 +112,12 @@
         </div>
 
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
         crossorigin="anonymous"></script>
-
-    <script>
-        $(document).ready(function () {
-            // Handle profile update
-            $('#profileUpdateForm').submit(function (event) {
-                event.preventDefault();  // Prevent default form submission
-                var formData = new FormData(this);
-                $.ajax({
-                    url: "{% url 'settings' %}",
-                    type: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            $('#profileUpdateMessage').html('<div class="alert alert-success">' + response.message + '</div>');
-                        } else {
-                            $('#profileUpdateMessage').html('<div class="alert alert-danger">' + response.message + '</div>');
-                        }
-                    },
-                    error: function () {
-                        $('#profileUpdateMessage').html('<div class="alert alert-danger">An error occurred.</div>');
-                    }
-                });
-            });
-
-            // Handle email update
-            $('#emailUpdateForm').submit(function (event) {
-                event.preventDefault();  // Prevent default form submission
-                var formData = $(this).serialize();
-                $.ajax({
-                    url: "{% url 'settings' %}",
-                    type: "POST",
-                    data: formData,
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            $('#emailUpdateMessage').html('<div class="alert alert-success">' + response.message + '</div>');
-                        } else {
-                            $('#emailUpdateMessage').html('<div class="alert alert-danger">' + response.message + '</div>');
-                        }
-                    },
-                    error: function () {
-                        $('#emailUpdateMessage').html('<div class="alert alert-danger">An error occurred.</div>');
-                    }
-                });
-            });
-
-            // Handle password change
-            $('#passwordChangeButton').click(function (event) {
-                event.preventDefault();  // Prevent default button action
-                var formData = $('#passwordChangeForm').serialize();
-                $.ajax({
-                    url: "{% url 'settings' %}",
-                    type: "POST",
-                    data: formData,
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            $('#passwordChangeMessage').html('<div class="alert alert-success">' + response.message + '</div>');
-                        } else {
-                            $('#passwordChangeMessage').html('<div class="alert alert-danger">' + response.message + '</div>');
-                        }
-                    },
-                    error: function () {
-                        $('#passwordChangeMessage').html('<div class="alert alert-danger">An error occurred.</div>');
-                    }
-                });
-            });
-        });
-
-    </script>
 
 </body>
 

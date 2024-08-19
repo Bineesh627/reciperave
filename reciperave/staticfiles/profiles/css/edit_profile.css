@@ -18,8 +18,10 @@ table {
   width: 100%;
   margin-top: 20px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
-  border-radius: 15px; /* Optional: Rounded corners */
+  background: rgba(255, 255, 255, 0.4);
+  /* Semi-transparent background */
+  border-radius: 15px;
+  /* Optional: Rounded corners */
 }
 
 td {
@@ -32,8 +34,10 @@ input[type="text"] {
   margin-top: 8px;
   margin-bottom: 8px;
   border: 1px solid #cccccc;
-  background: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
-  border-radius: 15px; /* Optional: Rounded corners */
+  background: rgba(255, 255, 255, 0.4);
+  /* Semi-transparent background */
+  border-radius: 15px;
+  /* Optional: Rounded corners */
 }
 
 
@@ -78,8 +82,10 @@ textarea {
   min-height: 100px;
   transition: border-color 0.3s;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
-  border-radius: 15px; /* Optional: Rounded corners */
+  background: rgba(255, 255, 255, 0.4);
+  /* Semi-transparent background */
+  border-radius: 15px;
+  /* Optional: Rounded corners */
 }
 
 textarea:focus {

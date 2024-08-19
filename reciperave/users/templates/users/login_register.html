@@ -23,32 +23,34 @@
                 </ul>
             </div>
             <div class="nav-button">
-                <button class="btn white-btn" id="loginBtn" onclick="login()">Sign In</button>
-                <button class="btn" id="registerBtn" onclick="register()">Sign Up</button>
+                <button class="btn white-btn" onclick="window.location.href='{% url 'login' %}';">Sign In</button>
+                <button class="btn" onclick="window.location.href='{% url 'register' %}';">Sign Up</button>
             </div>
             <div class="nav-menu-btn">
                 <i class="bx bx-menu" onclick="myMenuFunction()"></i>
             </div>
         </nav>
+        
+        {% include 'base/error.html' %}
 
         <!----------------------------- Form box ----------------------------------->
         <div class="form-box">
-
+            {% if form_type == "login" %}
             <!------------------- login form -------------------------->
 
             <div class="login-container" id="login">
                 <div class="top">
-                    <span>Don't have an account? <a href="#" onclick="register()">Sign Up</a></span>
+                    <span>Don't have an account? <a href="{% url 'register' %}">Sign Up</a></span>
                     <header>Login</header>
                 </div>
                 <form id="LoginForm" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="input-box">
-                        <input type="text" class="input-field" id="{{ form.username.id_for_label }}" name="{{ form.username.name }}" placeholder="username" required>
+                        <input type="text" class="input-field" id="username" name="username" placeholder="Username" required>
                         <i class="bx bx-user"></i>
                     </div>
                     <div class="input-box">
-                        <input type="password" class="input-field" id="{{ form.password.id_for_label }}" name="{{form.password.name}}" placeholder="Password" required>
+                        <input type="password" class="input-field" id="password" name="password" placeholder="Password" required>
                         <i class="bx bx-lock-alt"></i>
                     </div>
                     <div class="input-box">
@@ -66,58 +68,59 @@
                 </div>
             </div>
 
+            {% elif form_type == "register" %}
             <!------------------- registration form -------------------------->
             <div class="register-container" id="register">
                 <div class="top">
-                    <span>Have an account? <a href="#" onclick="login()">Login</a></span>
+                    <span>Have an account? <a href="{% url 'login' %}">Login</a></span>
                     <header>Sign Up</header>
                 </div>
-                
-                    <form id="RegForm" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="two-forms">
+
+                <form id="RegForm" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="two-forms">
                         <div class="input-box">
-                            <input type="text" class="input-field" placeholder="Firstname" id="{{ user_form.first_name.id_for_label }}" name="{{user_form.first_name.name}}" required>
+                            <input type="text" class="input-field" placeholder="First Name" id="first_name" name="first_name" required>
                             <i class="bx bx-user"></i>
                         </div>
                         <div class="input-box">
-                            <input type="text" class="input-field" placeholder="Lastname" id="{{ user_form.last_name.id_for_label }}" name="{{user_form.last_name.name}}" required>
+                            <input type="text" class="input-field" placeholder="Last Name" id="last_name" name="last_name" required>
                             <i class="bx bx-user"></i>
                         </div>
                     </div>
                     <div class="input-box">
-                        <input type="text" class="input-field" placeholder="Username" id="{{ user_form.username.id_for_label }}" name="{{user_form.username.name}}" required>
+                        <input type="text" class="input-field" placeholder="Username" id="username" name="username" required>
                         <i class="bx bx-user"></i>
                     </div>
                     <div class="input-box">
-                        <input type="email" class="input-field" placeholder="Email" id="{{ user_form.email.id_for_label }}" name="{{user_form.email.name}}" required>
+                        <input type="email" class="input-field" placeholder="Email" id="email" name="email" required>
                         <i class="bx bx-envelope"></i>
                     </div>
                     <div class="input-box">
-                        <input type="password" class="input-field" placeholder="Password" id="{{ user_form.password1.id_for_label }}" name="{{user_form.password1.name}}" required>
+                        <input type="password" class="input-field" placeholder="Password" id="password1" name="password1" required>
                         <i class="bx bx-lock-alt"></i>
                     </div>
                     <div class="input-box">
-                        <input type="password" class="input-field" placeholder="Confirm Password" id="{{ user_form.password2.id_for_label }}" name="{{user_form.password2.name}}" required>
+                        <input type="password" class="input-field" placeholder="Confirm Password" id="password2" name="password2" required>
                         <i class="bx bx-lock-alt"></i>
                     </div>
                     <div class="input-box">
                         <input type="submit" name="register" class="submit" value="Register">
                     </div>
-                    </form>
+                </form>
                 <div class="two-col">
                     <div class="one">
                         <input type="checkbox" id="register-check">
                         <label for="register-check"> Remember Me</label>
                     </div>
                     <div class="two">
-                        <label><a href="#">Terms & conditions</a></label>
+                        <label><a href="#">Terms & Conditions</a></label>
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
-
 
     <script>
 
@@ -130,34 +133,6 @@
                 i.className = "nav-menu";
             }
         }
-
-    </script>
-
-    <script>
-
-        var a = document.getElementById("loginBtn");
-        var b = document.getElementById("registerBtn");
-        var x = document.getElementById("login");
-        var y = document.getElementById("register");
-
-        function login() {
-            x.style.left = "4px";
-            y.style.right = "-520px";
-            a.className += " white-btn";
-            b.className = "btn";
-            x.style.opacity = 1;
-            y.style.opacity = 0;
-        }
-
-        function register() {
-            x.style.left = "-510px";
-            y.style.right = "5px";
-            a.className = "btn";
-            b.className += " white-btn";
-            x.style.opacity = 0;
-            y.style.opacity = 1;
-        }
-
     </script>
 
 </body>

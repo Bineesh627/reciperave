@@ -1,21 +1,22 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login
-from .forms import RegistrationForm, LoginForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from profiles.models import Profile
 from follows.models import Follow
 from recipes.models import Recipe
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.urls import reverse
 from django.views.decorators.cache import cache_control
 from django.views.generic import TemplateView
 
+def error1(request):
+    return render(request, 'base/toast_notification.html')
+
 def custom_404(request, exception=None):
-    if request.user.is_authenticated:
-        template_name = 'base/404_logged_in.html'
-    else:
-        template_name = 'base/404_not_logged_in.html'
-    return render(request, template_name, status=404)
+    return render(request, 'base/404.html', status=404)
 
 @login_required
 def homes(request):
@@ -52,50 +53,75 @@ def index(request):
         return redirect('homes') 
     return render(request, 'users/index.html')
 
+
 @cache_control(no_store=True, must_revalidate=True, no_cache=True)
-def signin_signup(request):
+def login_view(request):
     if request.user.is_authenticated:
         return redirect('homes')
 
-    user_form = None
-    form = None
+    if request.method == "POST":
+        # Extract data from POST request for login
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # Manual validation for login
+        if not username or not password:
+            messages.error(request, 'Username and password are required.')
+        else:
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                if user.is_staff:
+                    return redirect('admin:index')
+                else:
+                    return redirect('homes')
+            else:
+                messages.error(request, 'Invalid username or password.')
+
+    return render(request, 'users/login_register.html', {'form_type': 'login'})
+
+
+@cache_control(no_store=True, must_revalidate=True, no_cache=True)
+def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('homes')
 
     if request.method == "POST":
-        if 'register' in request.POST:
-            user_form = RegistrationForm(request.POST)
-            if user_form.is_valid():
-                user = user_form.save()
-                Profile.objects.create(user=user)
-                # Log in the user
-                login(request, user)
-                request.session['username'] = user.username  # Store username in session
-                return redirect('homes')
-            # If registration form is invalid, fall through to render the form with errors
+        # Extract data from POST request for registration
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
 
-        elif 'login' in request.POST:
-            form = LoginForm(data=request.POST)
-            if form.is_valid():
-                username = form.cleaned_data.get('username')
-                password = form.cleaned_data.get('password')
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    login(request, user)
-                    request.session['username'] = user.username  # Store username in session
-                    if user.is_staff:  # Check if user is admin
-                        return redirect('admin:index')  # Redirect to Django admin
-                    else:
-                        return redirect('homes')  # Redirect to user home
-                else:
-                    form.add_error(None, 'Invalid username or password')
-            # If login form is invalid, fall through to render the form with errors
+        # Manual validation for registration
+        if not first_name or not last_name or not username or not email or not password1 or not password2:
+            messages.error(request, 'All fields are required.')
+        elif password1 != password2:
+            messages.error(request, 'Passwords do not match.')
+        elif User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists.')
+        elif User.objects.filter(email=email).exists():
+            messages.error(request, 'Email already registered.')
+        else:
+            # Create the user
+            user = User.objects.create(
+                username=username,
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                password=make_password(password1),
+            )
+            # Create a profile for the user
+            Profile.objects.create(user=user)
 
-    if user_form is None:
-        user_form = RegistrationForm()
+            # Log in the user
+            login(request, user)
+            messages.success(request, 'Registration successful.')
+            return redirect('homes')
 
-    if form is None:
-        form = LoginForm()
-
-    return render(request, 'users/signin_signup.html', {'form': form, 'user_form': user_form})
+    return render(request, 'users/login_register.html', {'form_type': 'register'})
 
 def user_logout(request):
     logout(request)
