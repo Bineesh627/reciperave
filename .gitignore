@@ -132,10 +132,10 @@ venv.bak/
 
 # media files
 
-media/*
-media/images/*.png
-media/videos/*.mp4
-media/profile_pics/*.png
+media/recipes/images/
+media/recipes/videos/
+media/profile_pics/
+
 
 # Spyder project settings
 .spyderproject
