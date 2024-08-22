@@ -13,7 +13,6 @@
 </header>
 <div class="container-feedback-form">
     <div class="feedback-center">
-        {% include 'base/error.html' %}
         <form action="{% url 'feedbackForm' %}" method="post">
             {% csrf_token %}
             <label for="feedback">Message</label>

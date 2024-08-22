@@ -13,9 +13,8 @@
 </header>
 
 <div class="container-up-recipe">
-    {% include 'base/error.html' %}
     <div class="row-upload">
-        <form method="post" action="{% url 'upload_recipe_action' %}" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 <label for="recipe_name">Recipe Name:</label>
@@ -28,6 +27,7 @@
             <div class="form-group">
                 <label for="dishType">Dish Type:</label>
                 <select name="dishType" id="dishType" required>
+                    <option value="">All Dish Types</option>
                     {% for category in categories %}
                     <option value="{{ category.dishtype }}" {% if recipe.dishType == category.dishtype %}selected{% endif %}>
                         {{ category.dishtype }}
@@ -51,12 +51,69 @@
                 <input type="file" name="video" id="video" accept="video/*"><br>
             </div>
             <div class="form-group">
-                <label for="instruction">Instruction:</label>
-                <textarea name="instruction" id="instruction" required></textarea><br>
+                <label for="instructions">Instructions:</label>
+                <div id="instructions-container">
+                    <div class="instruction-step">
+                        <input type="text" name="instructions[]" placeholder="Step 1" required>
+                        <button type="button" class="delete-step">Delete</button>
+                    </div>
+                </div>
+                <button type="button" class="recipe-add" id="add-step">Add Step</button>
             </div>
-            <button type="submit">Upload Recipe</button>
+            <button type="submit" class="upload-recipe">Upload Recipe</button>
         </form>
     </div>
 </div>
 
+{% endblock %}
+
+{% block java_static %}
+<script>
+    // Function to add a new step
+    document.getElementById('add-step').addEventListener('click', function() {
+        var container = document.getElementById('instructions-container');
+        var stepNumber = container.getElementsByClassName('instruction-step').length + 1;
+
+        var stepDiv = document.createElement('div');
+        stepDiv.className = 'instruction-step';
+
+        var input = document.createElement('input');
+        input.type = 'text';
+        input.name = 'instructions[]';
+        input.placeholder = 'Step ' + stepNumber;
+        input.required = true;
+
+        var deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.className = 'delete-step';
+        deleteButton.innerText = 'Delete';
+
+        // Append the input and delete button to the step div
+        stepDiv.appendChild(input);
+        stepDiv.appendChild(deleteButton);
+
+        // Append the step div to the instructions container
+        container.appendChild(stepDiv);
+
+        // Add event listener to the delete button
+        deleteButton.addEventListener('click', function() {
+            stepDiv.remove();
+            updateStepPlaceholders();
+        });
+    });
+
+    // Function to update step placeholders after deletion
+    function updateStepPlaceholders() {
+        var steps = document.getElementsByClassName('instruction-step');
+        for (var i = 0; i < steps.length; i++) {
+            steps[i].getElementsByTagName('input')[0].placeholder = 'Step ' + (i + 1);
+        }
+    }
+
+    // Initial event listener for the first delete button
+    document.querySelector('.delete-step').addEventListener('click', function() {
+        this.parentElement.remove();
+        updateStepPlaceholders();
+    });
+</script>
 {% endblock %}

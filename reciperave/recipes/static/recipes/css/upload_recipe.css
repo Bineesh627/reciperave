@@ -46,7 +46,27 @@ input[type="file"] {
     padding: .5em;
 }
 
-button {
+.delete-step {
+    padding: 0.5em;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: .25em;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.recipe-add {
+    padding: 0.5em;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: .25em;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.upload-recipe {
     padding: 0.7em;
     color: #fff;
     background-color: #007BFF;

@@ -15,6 +15,7 @@
   <header>
     {% include 'base/back_button.html' %}
   </header>
+  {% include 'base/error.html' %}
   <main class="main-container">
     <article class="main-contents">
       <div class="menu-recipe">
@@ -44,11 +45,11 @@
       <!--instructions-->
       <section class="instructions">
         <h2 class="heading2">Instructions</h2>
-        <ul class="numbers">
-          <li>
-            {{ recipe.instruction }}
-          </li>
-        </ul>
+        <ol>
+          {% for step in recipe.instruction.splitlines %}
+          <li>{{ step }}</li><br>
+          {% endfor %}
+        </ol>
       </section>
       <hr>
 

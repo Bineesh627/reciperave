@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from recipes.models import Recipe
 from follows.models import Follow
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
@@ -54,8 +55,7 @@ def profile(request, username):
     user_profile = get_object_or_404(User, username=username)
     is_own_profile = request.user == user_profile
 
-    # Fetch only the recipes belonging to the user_profile
-    recipes = Recipe.objects.filter(user=user_profile).select_related('user')
+    recipes = Recipe.objects.filter(user=user_profile).select_related('user').order_by('-created_at')
 
     # Determine if the current user is following the user_profile
     is_following = Follow.objects.filter(follower=request.user, following=user_profile).exists()
@@ -109,12 +109,15 @@ def profile(request, username):
 
 @login_required
 def settings(request):
+    user = request.user
+
     if request.method == 'POST':
         if 'email_update' in request.POST:
             fname = request.POST.get('first_name')
             lname = request.POST.get('last_name')
             email = request.POST.get('email')
-            
+
+            # Validate first name and last name
             if not fname or not lname:
                 messages.error(request, 'First name and last name cannot be empty.')
             elif not fname.isalpha() or not lname.isalpha():
@@ -122,43 +125,46 @@ def settings(request):
             elif not email or not email.endswith('@gmail.com'):
                 messages.error(request, 'Invalid email format.')
             else:
-                # Check if the name has changed
-                if fname != request.user.first_name or lname != request.user.last_name:
-                    request.user.first_name = fname
-                    request.user.last_name = lname
-                    request.user.save()
+                # Update first name and last name if they are different
+                if fname != user.first_name or lname != user.last_name:
+                    user.first_name = fname
+                    user.last_name = lname
+                    user.save()
                     messages.success(request, 'First name and last name updated successfully.')
                 else:
                     messages.info(request, 'No changes detected in name fields.')
-                
-                # Check if the email has changed
-                if email != request.user.email:
-                    request.user.email = email
-                    request.user.save()
+
+                # Update email if it is different
+                if email != user.email:
+                    user.email = email
+                    user.save()
                     messages.success(request, 'Email updated successfully.')
                 else:
                     messages.info(request, 'No changes detected in email field.')
 
         elif 'password_change' in request.POST:
-            password_form = PasswordChangeForm(user=request.user, data=request.POST)
-            if password_form.is_valid():
-                user = password_form.save()
-                update_session_auth_hash(request, user)  # Keeps the user logged in
-                messages.success(request, 'Password changed successfully.')
+            old_password = request.POST.get('current_password')
+            new_password = request.POST.get('new_password')
+            confirm_password = request.POST.get('confirm_password')
+
+            # Validate old password
+            if not check_password(old_password, user.password):
+                messages.error(request, "Old password is incorrect.")
             else:
-                messages.error(request, 'Password change failed.')
+                # Validate new password
+                if new_password != confirm_password:
+                    messages.error(request, "New password and confirm password do not match.")
+                elif len(new_password) < 8:
+                    messages.error(request, "New password must be at least 8 characters long.")
+                else:
+                    # Set the new password
+                    user.set_password(new_password)
+                    user.save()
 
-        # After processing the form, redirect back to the settings page
-        return redirect('settings')  # Assuming 'settings' is the name of the URL for this view
+                    # Update session to prevent logout after password change
+                    update_session_auth_hash(request, user)
 
-    # GET request handling - form initialization
-    profile, created = Profile.objects.get_or_create(user=request.user)
-    password_form = PasswordChangeForm(user=request.user)
+                    messages.success(request, "Your password was successfully updated!")
 
-    return render(request, 'profiles/settings.html', {
-        'profile_form_data': {
-            'username': request.user.username,
-            'bio': profile.bio,
-        },
-        'password_form': password_form,
-    })
+    # GET request - form initialization
+    return render(request, 'profiles/settings.html')

@@ -83,7 +83,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Password</h5>
-                                <form id="passwordChangeForm">
+                                <form method="post">
                                     {% csrf_token %}
                                     <div class="form-group">
                                         <label for="inputPasswordCurrent">Current password</label>
@@ -100,7 +100,7 @@
                                         <input type="password" class="form-control" id="inputPasswordNew2"
                                             name="confirm_password" autocomplete="new-password">
                                     </div>
-                                    <button type="submit" id="passwordChangeButton" class="btn btn-primary">change
+                                    <button type="submit" name="password_change" class="btn btn-primary">change
                                         password</button>
                                 </form>
 

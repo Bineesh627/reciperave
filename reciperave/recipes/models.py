@@ -10,9 +10,9 @@ class Category(models.Model):
 
 class Recipe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    recipe_name = models.CharField(max_length=50)
+    recipe_name = models.CharField(max_length=70)
     total_time = models.CharField(max_length=20)
-    dishType = models.CharField(max_length=20)
+    dishType = models.CharField(max_length=50)
     description = models.TextField()
     photo = models.ImageField(upload_to='recipes/images/', null=True, blank=True)
     video = models.FileField(upload_to='recipes/videos/', null=True, blank=True)

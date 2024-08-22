@@ -9,7 +9,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
     username.short_description = 'Username'  # Label for the column in the admin
 
-    list_display = ('username', 'recipe_name', 'created_at')  # Display user and recipe details
+    list_display = ('username', 'recipe_name', 'dishType', 'created_at')  # Display user and recipe details
 
     def has_add_permission(self, request):
         return False

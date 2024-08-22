@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -12,9 +12,20 @@ from django.urls import reverse
 from django.views.decorators.cache import cache_control
 from django.views.generic import TemplateView
 
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes,  force_str
+from django.contrib.auth import update_session_auth_hash
+
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
+
 def error1(request):
     return render(request, 'base/toast_notification.html')
 
+@cache_control(no_store=True, must_revalidate=True, no_cache=True)
 def custom_404(request, exception=None):
     return render(request, 'base/404.html', status=404)
 
@@ -135,3 +146,58 @@ class LoginView(TemplateView):
         if request.user.is_authenticated:
             return redirect('homes')  # Redirect to home if user is already logged in
         return super().get(request, *args, **kwargs)
+
+@cache_control(no_store=True, must_revalidate=True, no_cache=True)
+def password__reset_done(request):
+    return render(request, 'forgot/password_reset_done.html')
+
+@cache_control(no_store=True, must_revalidate=True, no_cache=True)
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        user = User.objects.filter(email=email).first()
+        if user:
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            reset_url = request.build_absolute_uri(f'/reset-password/{uid}/{token}/')
+            message = render_to_string('forgot/email_template.html', {
+                'reset_url': reset_url,
+            })
+            text_content = strip_tags(message)
+            email_message = EmailMultiAlternatives(
+                subject='Password Reset',
+                body=text_content,  # Plain text content for email clients that don't support HTML
+                from_email='sbineesh172@gamil.com',
+                to=[email]
+            )
+            email_message.attach_alternative(message, "text/html")
+            email_message.send()
+        return redirect('password__reset_done')  # Redirect to a confirmation page
+    return render(request, 'forgot/forgot_password.html')
+
+@cache_control(no_store=True, must_revalidate=True, no_cache=True)
+def password_reset_complete(request):
+    return render(request, 'forgot/password_reset_complete.html')
+
+@cache_control(no_store=True, must_revalidate=True, no_cache=True)
+def password_reset_invalid(request):
+    return render(request, 'forgot/password_reset_invalid.html')
+
+@cache_control(no_store=True, must_revalidate=True, no_cache=True)
+def reset_password(request, uidb64, token):
+    try:
+        uid =  force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            new_password = request.POST['new_password']
+            user.set_password(new_password)
+            user.save()
+            update_session_auth_hash(request, user)  # Keep the user logged in after password change
+            return redirect('password_reset_complete')  # Redirect to a success page
+        return render(request, 'forgot/reset_password.html')
+    else:
+        return redirect('password_reset_invalid')  # Redirect to an invalid token page
