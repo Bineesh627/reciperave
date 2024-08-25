@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@=2+f(5+=s*g1-atdr@k2+_w-i&qnhtkz+yk2iw^r8#m_(*7-e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 LOGIN_URL = '/login/'  # URL where users are redirected if they are not authenticated
 LOGOUT_URL = '/logout/'  # URL where users are redirected after logging out
@@ -60,6 +60,7 @@ AUTHENTICATION_BACKENDS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'users.middleware.NoCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -69,21 +70,16 @@ MIDDLEWARE = [
 ]
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-
 SESSION_COOKIE_NAME = 'user_session_id'
-
-SESSION_COOKIE_AGE = 1209600
-
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'sbineesh172'
-EMAIL_HOST_PASSWORD = 'xxqr rkho wixi tcnh'
+EMAIL_HOST_PASSWORD = 'lpra ygic eqli wfnq'
 
 ROOT_URLCONF = 'reciperave.urls'
 

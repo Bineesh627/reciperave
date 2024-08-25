@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Feedback
 
 class FeedbackAdmin(admin.ModelAdmin):
-    readonly_fields = ('message', 'created_at', 'user')  # Make fields read-only
+    readonly_fields = ('user', 'message', 'created_at')  # Make fields read-only
     
     def username(self, obj):
         return obj.user.username if obj.user else 'Anonymous'  # Return 'Anonymous' if user is None

@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchValue = searchInput.value.toLowerCase();
         const filterValue = filterSelect.value;
 
-        const cards = cardContainer.querySelectorAll('.card');
+        const cards = cardContainer.querySelectorAll('.recipe-card');
 
         cards.forEach(card => {
-            const recipeName = card.querySelector('.card-content h3').textContent.toLowerCase();
-            const dishType = card.querySelector('.card-content p').textContent.toLowerCase();
+            const recipeName = card.querySelector('.card-recipe-content h3').textContent.toLowerCase();
+            const dishType = card.querySelector('.card-recipe-content p').textContent.toLowerCase();
 
             const isTextMatch = recipeName.includes(searchValue);
             const isCategoryMatch = filterValue === "" || dishType.includes(filterValue.toLowerCase());

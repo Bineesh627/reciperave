@@ -19,5 +19,8 @@ class Recipe(models.Model):
     instruction = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.recipe_name
     class Meta:
         db_table = "tbl_recipe"  # Ensure this matches your actual table name
+    
