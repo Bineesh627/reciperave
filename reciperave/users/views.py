@@ -134,13 +134,14 @@ def register_view(request):
             # Create a profile for the user
             Profile.objects.create(user=user)
 
-            if remember_me:
-                request.session.set_expiry(1209600)  # 2 weeks in seconds     
-            else:
-                request.session.set_expiry(0)  # Session expires on browser close
-
             # Log in the user
             login(request, user)
+
+            if remember_me:
+                request.session.set_expiry(1209600)
+            else:
+                request.session.set_expiry(0)
+            
             messages.success(request, 'Registration successful.')
             return redirect('homes')
 
