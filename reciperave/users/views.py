@@ -70,11 +70,9 @@ def login_view(request):
         return redirect('homes')
 
     if request.method == "POST":
-        print(request.POST)
-        # Extract data from POST request for login
         username = request.POST.get('username')
         password = request.POST.get('password')
-        remember_me = request.POST.get('remember_me')  # Extract "Remember Me" checkbox value
+        remember_me = request.POST.get('remember_me')
 
         # Manual validation for login
         if not username or not password:
@@ -113,6 +111,7 @@ def register_view(request):
         email = request.POST.get('email')
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
+        remember_me = request.POST.get('remember_me')  
 
         # Manual validation for registration
         if not first_name or not last_name or not username or not email or not password1 or not password2:
@@ -134,6 +133,11 @@ def register_view(request):
             )
             # Create a profile for the user
             Profile.objects.create(user=user)
+
+            if remember_me:
+                request.session.set_expiry(1209600)  # 2 weeks in seconds     
+            else:
+                request.session.set_expiry(0)  # Session expires on browser close
 
             # Log in the user
             login(request, user)

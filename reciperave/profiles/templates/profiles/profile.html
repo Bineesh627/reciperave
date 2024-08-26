@@ -31,6 +31,7 @@
 
                 {% if is_own_profile %}
                 <button class="btn profile-edit-btn" onclick="redirectToProfileEdit()">Edit Profile</button>
+                <button class="btn profile-settings-btn" onclick="redirectToProfileSettings()"><i class="fas fa-cog" aria-hidden="true"></i></button>
                 {% else %}
                 <button class="btn profile-edit-btn" id="follow-btn" data-id="{{ current_user.uid }}" data-followed="{{ is_following }}">
                     {% if is_following %}Unfollow{% else %}Follow{% endif %}
@@ -103,6 +104,10 @@
 
     function redirectToProfileEdit() {
         window.location.href = "{% url 'edit_profile' %}";
+    }
+
+    function redirectToProfileSettings() {
+        window.location.href = "{% url 'settings' %}";
     }
 
     document.addEventListener('DOMContentLoaded', () => {

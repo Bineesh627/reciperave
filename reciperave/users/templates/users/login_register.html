@@ -23,8 +23,8 @@
                 </ul>
             </div>
             <div class="nav-button">
-                <button class="btn white-btn" onclick="window.location.href='{% url 'login' %}';">Sign In</button>
-                <button class="btn" onclick="window.location.href='{% url 'register' %}';">Sign Up</button>
+                <button class="btn white-btn" onclick="redirectToLoginPage()">Login</button>
+                <button class="btn" onclick="redirectToRegisterPage()">Register</button>
             </div>
             <div class="nav-menu-btn">
                 <i class="bx bx-menu" onclick="myMenuFunction()"></i>
@@ -40,7 +40,7 @@
 
             <div class="login-container" id="login">
                 <div class="top">
-                    <span>Don't have an account? <a href="{% url 'register' %}">Sign Up</a></span>
+                    <span>Don't have an account? <a href="{% url 'register' %}">Register</a></span>
                     <header>Login</header>
                 </div>
                 <form id="LoginForm" method="post" enctype="multipart/form-data">
@@ -109,22 +109,31 @@
                     <div class="input-box">
                         <input type="submit" name="register" class="submit" value="Register">
                     </div>
+
+                    <div class="two-col">
+                        <div class="one">
+                            <input type="checkbox" id="remember_me" name="remember_me">
+                            <label for="remember_me"> Remember Me</label>
+                        </div>
+                        <div class="two">
+                            <label><a href="#">Terms & Conditions</a></label>
+                        </div>
+                    </div>
                 </form>
-                <div class="two-col">
-                    <div class="one">
-                        <input type="checkbox" id="register-check">
-                        <label for="register-check"> Remember Me</label>
-                    </div>
-                    <div class="two">
-                        <label><a href="#">Terms & Conditions</a></label>
-                    </div>
-                </div>
             </div>
             {% endif %}
         </div>
     </div>
 
     <script>
+        function redirectToLoginPage() {
+            window.location.href = "{% url 'login' %}";
+        }
+
+        function redirectToRegisterPage() {
+            window.location.href = "{% url 'register' %}";
+        }
+
 
         function myMenuFunction() {
             var i = document.getElementById("navMenu");

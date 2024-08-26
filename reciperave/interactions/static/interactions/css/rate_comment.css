@@ -70,9 +70,7 @@ textarea {
     margin-bottom: .5rem;
 }
 .btn-group {
-    display: flex;
-    grid-gap: .5rem;
-    align-items: center;
+    margin-left: 200px;
 }
 .btn-group .btn {
     padding: .75rem 1rem;

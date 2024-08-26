@@ -53,10 +53,14 @@ body {
     height: 100%;
     overflow: auto;
     transition: margin-left 0.3s ease;
-    background-image: url("/static/users/images/slider-03.jpg");/* Replace with your image path */
-    background-size: cover; /* Ensures the image covers the entire section */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents image from repeating */
+    background-image: url("/static/users/images/slider-03.jpg");
+    /* Replace with your image path */
+    background-size: cover;
+    /* Ensures the image covers the entire section */
+    background-position: center;
+    /* Centers the image */
+    background-repeat: no-repeat;
+    /* Prevents image from repeating */
 }
 
 
@@ -64,7 +68,7 @@ body {
     width: 250px;
 }
 
-.container.active ~ .main-content {
+.container.active~.main-content {
     margin-left: 250px;
 }
 
@@ -167,4 +171,81 @@ body {
 .link-item.active a .num-noti {
     color: var(--primary-clr);
     background-color: var(--white-bg);
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+    
+
+    /* Make sure the mobile bottom nav is displayed */
+    .cd__main {
+        display: block;
+        /* Ensure it's visible */
+    }
+
+    .mobile-bottom-nav {
+        position: fixed;
+        /* Stick to the bottom of the screen */
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        display: flex;
+        height: 50px;
+        box-shadow: 0 -2px 5px -2px #333;
+        background-color: #fff;
+    }
+
+    .mobile-bottom-nav__item {
+        flex-grow: 1;
+        text-align: center;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      
+      .mobile-bottom-nav__item--active {
+        color: red;
+      }
+      
+      .mobile-bottom-nav__item-content {
+        display: flex;
+        flex-direction: column;
+      }
+
+    /* Adjust main content to avoid overlapping with the navbar */
+    .main-content {
+        padding-bottom: 60px;
+        /* Add padding to make space for the navbar */
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .cd__main {
+        display: none;
+        /* Hide on larger screens */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .link-item a {
+        font-size: 14px;
+    }
+
+    .link-item img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .link-item ion-icon {
+        min-width: 18px;
+        min-height: 18px;
+    }
 }

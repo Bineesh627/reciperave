@@ -13,10 +13,65 @@
   
   {% load static %}
   <link rel="stylesheet" href="{% static 'base/css/base.css' %}" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   {% block css_static %}{% endblock %}
 </head>
 
 <body>
+  <div class="cd__main">
+    <nav class="mobile-bottom-nav">
+       <div class="mobile-bottom-nav__item">
+          <div class="mobile-bottom-nav__item-content">
+             <a href="{% url 'homes' %}">
+              <i class="material-icons">home</i>
+             </a>
+             home
+          </div>
+       </div>
+       <div class="mobile-bottom-nav__item">
+          <div class="mobile-bottom-nav__item-content">
+             <a href="{% url 'search_recipes' %}">
+              <i class="material-icons">search</i>
+             </a>
+             search
+          </div>
+       </div>
+       <div class="mobile-bottom-nav__item">
+          <div class="mobile-bottom-nav__item-content">
+             <a href="{% url 'view_bookmark' %}">
+              <i class="material-icons">bookmark</i>
+             </a>
+             bookmark
+          </div>
+       </div>
+
+       <div class="mobile-bottom-nav__item">
+          <div class="mobile-bottom-nav__item-content">
+             <a href="{% url 'upload_recipe' %}">
+              <i class="material-icons">upload</i>
+             </a>
+             upload
+          </div>
+       </div>
+       <div class="mobile-bottom-nav__item">
+          <div class="mobile-bottom-nav__item-content">
+             <a href="{% url 'feedback' %}">
+              <i class="material-icons">feedback</i>
+             </a>
+             feedback
+          </div>
+       </div>
+       <div class="mobile-bottom-nav__item">
+          <div class="mobile-bottom-nav__item-content">
+             <a href="{% url 'profile' username=user.username %}">
+              <i class="material-icons">account_circle</i>
+             </a>
+             profile
+          </div>
+       </div>
+    </nav>
+    <!-- END EDMO HTML (Happy Coding!)-->
+  </div>
   <div class="wrapper">
     <div class="container">
       <div class="logo">
@@ -65,12 +120,12 @@
           </a>
         </li>
 
-        <li class="link-item {% if current_url == '/settings/' %}active{% endif %}">
+        <!-- <li class="link-item {% if current_url == '/settings/' %}active{% endif %}">
           <a href="{% url 'settings' %}" class="link">
             <ion-icon name="settings-outline"></ion-icon>
             <span style="--i: 13">Settings</span>
           </a>
-        </li>
+        </li> -->
 
         <li class="link-item">
           <a href="{% url 'logout' %}" class="link">
@@ -89,6 +144,7 @@
   </div>
 
   {% block java_static %}{% endblock %}
+  </script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   <script src="{% static 'base/js/base.js' %}"></script>

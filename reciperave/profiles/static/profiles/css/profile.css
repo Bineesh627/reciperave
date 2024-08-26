@@ -30,23 +30,46 @@ img {
 }
 
 .btn:focus {
+    
     outline: 0.5rem auto #4d90fe;
 }
 
 /* Profile Section */
 
+.profile-settings-btn {
+    font-size: 2rem;
+    margin-left: 1rem;
+}
+
 .profile {
     padding: 5rem 0;
     overflow: hidden;
-    z-index: 2;
-    background: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
-    border-radius: 15px; /* Optional: Rounded corners */
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 15px;
 }
 
 .profile::after {
     content: "";
     display: block;
     clear: both;
+}
+
+@media screen and (max-width: 768px) {
+    .container-profile {
+        max-width: 93.5rem;
+        max-height: 100vh;
+        margin: 0 auto;
+        padding: 0 2rem;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.7); 
+    }
+
+    .profile {
+        padding: 0;
+        background: none;
+        border-radius: 0; 
+        overflow: visible; 
+    }
 }
 
 .profile-image {
@@ -132,9 +155,9 @@ img {
         padding: 4rem 0;
     }
 
-    /* .profile::after {
+    .profile::after {
         display: none;
-    } */
+    }
 
     .profile-image,
     .profile-user-settings,
@@ -163,7 +186,7 @@ img {
         order: 1;
         padding: 0;
         text-align: center;
-        margin-top: 1rem;
+        margin-top: rem;
     }
 
     .profile-edit-btn {
@@ -250,6 +273,7 @@ img {
 
         .profile-user-settings,
         .profile-edit-btn,
+        .profile-settings-btn,
         .profile-bio,
         .profile-stats {
             margin: 0;
