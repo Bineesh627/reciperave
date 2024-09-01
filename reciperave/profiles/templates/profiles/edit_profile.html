@@ -11,42 +11,24 @@
   <h1>Edit Profile</h1>
 </header>
 <div class="container-edit-profile">
-  <form method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
-    {% csrf_token %}
-    <table>
-      <tr>
-        <td>
-          <label for="profile_picture">Profile Picture:</label>
-        </td>
-        <td>
-          <input type="file" id="profile_picture" name="profile_picture">
-        </td>
-      </tr>
+    <form method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
+      <div class="row-upload">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="profile_picture">Profile Picture:</label>
+        <input type="file" id="profile_picture" name="profile_picture">
+      </div>
 
-      <tr>
-        <td>
-          <label for="username">Username:</label>
-        </td>
-        <td>
-          <input type="text" id="username" name="username" value="{{ user.username }}">
-        </td>
-      </tr>
-
-      <tr>
-        <td>
-          <label for="bio">Bio:</label>
-        </td>
-        <td>
-          <textarea id="bio" name="bio">{{ profile.bio }}</textarea>
-        </td>
-      </tr>
-
-      <tr>
-        <td>
-          <input type="submit" value="Update">
-        </td>
-      </tr>
-    </table>
-  </form>
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="{{ user.username }}" autocapitalize="off" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label for="bio">Bio:</label>
+        <textarea id="bio" name="bio">{{ profile.bio }}</textarea>
+      </div>
+      <input type="submit" value="Update">
+      </div>
+    </form>
 </div>
 {% endblock %}

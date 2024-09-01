@@ -46,11 +46,11 @@
                 <form id="LoginForm" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="input-box">
-                        <input type="text" class="input-field" id="username" name="username" placeholder="Username" required>
+                        <input type="text" class="input-field" id="username" name="username" placeholder="Username" title="Username" autocapitalize="off" autocomplete="username" required>
                         <i class="bx bx-user"></i>
                     </div>
                     <div class="input-box">
-                        <input type="password" class="input-field" id="password" name="password" placeholder="Password" required>
+                        <input type="password" class="input-field" id="password" name="password" placeholder="Password" title="Password" autocapitalize="off" autocomplete="current-password" required>
                         <i class="bx bx-lock-alt"></i>
                     </div>
 
@@ -82,28 +82,28 @@
                     {% csrf_token %}
                     <div class="two-forms">
                         <div class="input-box">
-                            <input type="text" class="input-field" placeholder="First Name" id="first_name" name="first_name" required>
+                            <input type="text" class="input-field" placeholder="First Name" title="First Name" id="first_name" name="first_name" autocapitalize="off" autocomplete="given-name" required>
                             <i class="bx bx-user"></i>
                         </div>
                         <div class="input-box">
-                            <input type="text" class="input-field" placeholder="Last Name" id="last_name" name="last_name" required>
+                            <input type="text" class="input-field" placeholder="Last Name" title="Last Name" id="last_name" name="last_name" autocapitalize="off" autocomplete="family-name" required>
                             <i class="bx bx-user"></i>
                         </div>
                     </div>
                     <div class="input-box">
-                        <input type="text" class="input-field" placeholder="Username" id="username" name="username" required>
+                        <input type="text" class="input-field" placeholder="Username" title="Username" id="reg_username" name="username" autocapitalize="off" autocomplete="username" required>
                         <i class="bx bx-user"></i>
                     </div>
                     <div class="input-box">
-                        <input type="email" class="input-field" placeholder="Email" id="email" name="email" required>
+                        <input type="email" class="input-field" placeholder="Email" title="Email" id="email" name="email" autocapitalize="off" autocomplete="email" required>
                         <i class="bx bx-envelope"></i>
                     </div>
                     <div class="input-box">
-                        <input type="password" class="input-field" placeholder="Password" id="password1" name="password1" required>
+                        <input type="password" class="input-field" placeholder="Password" title="Password" id="password1" name="password1" autocapitalize="off" autocomplete="new-password" required>
                         <i class="bx bx-lock-alt"></i>
                     </div>
                     <div class="input-box">
-                        <input type="password" class="input-field" placeholder="Confirm Password" id="password2" name="password2" required>
+                        <input type="password" class="input-field" placeholder="Confirm Password" title="Confirm Password" id="password2" name="password2" autocapitalize="off" autocomplete="current-password" required>
                         <i class="bx bx-lock-alt"></i>
                     </div>
                     <div class="input-box">
@@ -116,7 +116,7 @@
                             <label for="remember_me"> Remember Me</label>
                         </div>
                         <div class="two">
-                            <label><a href="#">Terms & Conditions</a></label>
+                            <label for="remember_me"><a href="#">Terms & Conditions</a></label>
                         </div>
                     </div>
                 </form>
@@ -134,7 +134,6 @@
             window.location.href = "{% url 'register' %}";
         }
 
-
         function myMenuFunction() {
             var i = document.getElementById("navMenu");
 
@@ -145,7 +144,6 @@
             }
         }
     </script>
-
 </body>
 
 </html>

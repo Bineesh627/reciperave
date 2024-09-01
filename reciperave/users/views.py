@@ -21,6 +21,7 @@ from django.conf import settings
 from django import forms
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
+from django.views.generic import TemplateView
 
 def error1(request):
     return render(request, 'base/toast_notification.html')
@@ -28,6 +29,14 @@ def error1(request):
 @cache_control(no_store=True, must_revalidate=True, no_cache=True)
 def custom_404(request, exception=None):
     return render(request, 'base/404.html', status=404)
+
+class LoginView(TemplateView):
+    template_name = 'users/login_register.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('homes')  # Redirect to home if user is already logged in
+        return super().get(request, *args, **kwargs)
 
 @login_required
 def homes(request):

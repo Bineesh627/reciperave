@@ -104,6 +104,10 @@ h1 {
     gap: 0.75rem;
 }
 
+.instructions {
+    margin-left: 1.5rem;
+}
+
 .prep-time {
     padding: 1rem 1rem;
     border-radius: 1rem;

@@ -37,12 +37,11 @@ input#searchInput::placeholder {
     color: black;
 }
 
-
 #filterSelect {
     padding: 8px;
     z-index: 2;
-    background: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
-    border-radius: 15px; /* Optional: Rounded corners */
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 15px;
 }
 
 .card-container {
