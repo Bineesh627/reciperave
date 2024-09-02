@@ -2,15 +2,19 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Feedback
 from django.contrib.auth.decorators import login_required
+from users.decorators import admin_required
 
+@admin_required
 @login_required
 def feedback(request):
     return render(request, 'feedback/feedback_form.html')
 
+@admin_required
 @login_required
 def feedback_success(request):
     return render(request, 'feedback/feedback_success.html')
 
+@admin_required
 @login_required
 def feedbackForm(request):
     if request.method == 'POST':

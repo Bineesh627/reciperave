@@ -8,7 +8,9 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
+from users.decorators import admin_required
 
+@admin_required
 @login_required
 def edit_profile(request):
     user = request.user
@@ -50,6 +52,7 @@ def edit_profile(request):
     }
     return render(request, 'profiles/edit_profile.html', context)
 
+@admin_required
 @login_required
 def profile(request, username):
     user_profile = get_object_or_404(User, username=username)
@@ -107,6 +110,7 @@ def profile(request, username):
     
     return render(request, 'profiles/profile.html', context)
 
+@admin_required
 @login_required
 def settings(request):
     user = request.user

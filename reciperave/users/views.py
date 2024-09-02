@@ -22,6 +22,7 @@ from django import forms
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
 from django.views.generic import TemplateView
+from users.decorators import admin_required
 
 def error1(request):
     return render(request, 'base/toast_notification.html')
@@ -38,6 +39,7 @@ class LoginView(TemplateView):
             return redirect('homes')  # Redirect to home if user is already logged in
         return super().get(request, *args, **kwargs)
 
+@admin_required
 @login_required
 def homes(request):
     # Get the logged-in user
@@ -66,13 +68,14 @@ def homes(request):
 
     return render(request, 'users/homes.html', context)
 
-
+@admin_required
 @cache_control(no_store=True, must_revalidate=True, no_cache=True)
 def index(request):
     if request.user.is_authenticated:
         return redirect('homes') 
     return render(request, 'users/index.html')
 
+@admin_required
 @cache_control(no_store=True, must_revalidate=True, no_cache=True)
 def login_view(request):
     if request.user.is_authenticated:
@@ -107,6 +110,7 @@ def login_view(request):
 
     return render(request, 'users/login_register.html', {'form_type': 'login'})
 
+@admin_required
 @cache_control(no_store=True, must_revalidate=True, no_cache=True)
 def register_view(request):
     if request.user.is_authenticated:
@@ -164,8 +168,12 @@ def user_logout(request):
 class ForgotPasswordForm(forms.Form):
     email = forms.EmailField(max_length=254, required=True)
 
+@admin_required
 @cache_control(no_store=True, must_revalidate=True, no_cache=True)
 def forgot_password(request):
+    if request.user.is_authenticated:
+        return redirect('homes')
+
     if request.method == 'POST':
         form = ForgotPasswordForm(request.POST)
         if form.is_valid():
@@ -200,6 +208,7 @@ def forgot_password(request):
 
     return render(request, 'forgot/forgot_password.html', {'form': form})
 
+@admin_required
 @cache_control(no_store=True, must_revalidate=True, no_cache=True)
 def reset_password(request, uidb64, token):
     try:

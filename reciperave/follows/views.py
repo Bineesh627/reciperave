@@ -5,7 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Follow
 from profiles.models import Profile
+from users.decorators import admin_required
 
+@admin_required
 @login_required
 def followers(request, username):
     user = get_object_or_404(User, username=username)
@@ -32,6 +34,7 @@ def followers(request, username):
         'profile_user': user
     })
 
+@admin_required
 @login_required
 def followings(request, username):
     user = get_object_or_404(User, username=username)
@@ -58,7 +61,7 @@ def followings(request, username):
     })
 
 
-
+@admin_required
 @login_required
 def follow_user(request):
     if request.method == 'POST':
@@ -74,6 +77,7 @@ def follow_user(request):
 
         return JsonResponse({'is_followed': is_followed})
 
+@admin_required
 @login_required
 def unfollow_user(request):
     if request.method == 'POST':

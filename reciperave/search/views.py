@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from recipes.models import Recipe, Category
 from django.contrib.auth.decorators import login_required
+from users.decorators import admin_required
 
+@admin_required
 @login_required
 def search_recipes(request):
     title = request.GET.get('title', '')

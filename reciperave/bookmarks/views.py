@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from . models import Bookmark
 from recipes.models import Recipe
 from django.contrib.auth.decorators import login_required
+from users.decorators import admin_required
 
+@admin_required
 @login_required
 def bookmark_recipe(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
@@ -15,6 +17,7 @@ def bookmark_recipe(request, recipe_id):
     return redirect('view_bookmark')
 
 
+@admin_required
 @login_required
 def view_bookmark(request):
     # Fetch all bookmarks for the current user
@@ -30,6 +33,7 @@ def view_bookmark(request):
     
     return render(request, 'bookmarks/view_bookmark.html', context)
 
+@admin_required
 @login_required
 def unbookmark_recipe(request, recipe_id):
     # Retrieve the recipe and check if the bookmark exists

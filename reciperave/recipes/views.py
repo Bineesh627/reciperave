@@ -7,7 +7,9 @@ from profiles.models import Profile
 from django.contrib import messages
 from interactions.models import Rating, Comments
 from django.contrib.auth.decorators import login_required
+from users.decorators import admin_required
 
+@admin_required
 @login_required
 def edit_recipe(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
@@ -59,6 +61,7 @@ def edit_recipe(request, recipe_id):
     }
     return render(request, 'recipes/edit_recipe.html', context)
 
+@admin_required
 @login_required
 def upload_recipe(request):
     categories = Category.objects.all()  
@@ -95,6 +98,7 @@ def upload_recipe(request):
 
     return render(request, 'recipes/upload_recipe.html', context)
 
+@admin_required
 @login_required
 def view_recipe(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
@@ -120,6 +124,7 @@ def view_recipe(request, recipe_id):
 
     return render(request, 'recipes/view_recipe.html', context)
 
+@admin_required
 @login_required
 def delete_recipe(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)  # Use ORM to get recipe or return 404
